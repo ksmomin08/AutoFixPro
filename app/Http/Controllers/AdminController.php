@@ -51,7 +51,14 @@ class AdminController extends Controller
         $appointment = \App\Models\Appointment::findOrFail($id);
         $appointment->status = 'accepted';
         $appointment->save();
-        return redirect()->back()->with('success', 'Appointment accepted.');
+
+        try {
+            \Illuminate\Support\Facades\Mail::to($appointment->email)->send(new \App\Mail\BookingAcceptedMail($appointment));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send booking acceptance email: ' . $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Appointment accepted & email sent.');
     }
 
     public function cancelAppointment($id)
