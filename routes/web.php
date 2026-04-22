@@ -26,6 +26,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+    Route::get('/verify-otp', [AuthController::class, 'showVerifyOtp'])->name('verify.otp');
+    Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify.otp.post');
+    Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->name('resend.otp');
 });
 
 Route::middleware('auth')->group(function () {
