@@ -19,8 +19,8 @@ class AdminController extends Controller
         $recentUsers = \App\Models\User::where('role', 'user')->latest()->take(5)->get();
         $recentAppointments = \App\Models\Appointment::latest()->take(5)->get();
 
-        // Mock revenue: Avg 1500 per booking
-        $totalRevenue = $completedBookings * 1500;
+        // Real revenue: Sum of all money securely collected (advance fees + fully paid balances)
+        $totalRevenue = \App\Models\Appointment::sum('advance_paid');
 
         return view('admin.dashboard', compact(
             'usersCount', 
