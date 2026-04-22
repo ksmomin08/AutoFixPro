@@ -219,9 +219,9 @@
                 </div>
                 <div class="col-lg-3">
                     <h4 class="fw-bold">CONTACT INFO</h4>
-                    <p class="text-secondary small mb-2"><i class="fas fa-phone me-2"></i> +91 98765 43210</p>
-                    <p class="text-secondary small mb-2"><i class="fas fa-envelope me-2"></i> hello@autofixpro.com</p>
-                    <p class="text-secondary small mb-2"><i class="fas fa-map-marker-alt me-2"></i> Bangalore, India</p>
+                    <p class="text-secondary small mb-2"><i class="fas fa-phone me-2"></i> +91 6353845689</p>
+                    <p class="text-secondary small mb-2"><i class="fas fa-envelope me-2"></i> k.s.momin440@gmail.com</p>
+                    <p class="text-secondary small mb-2"><i class="fas fa-map-marker-alt me-2"></i> Ahmedabad, India</p>
                 </div>
                 <div class="col-lg-3">
                     <h4 class="fw-bold">WORKING HOURS</h4>
