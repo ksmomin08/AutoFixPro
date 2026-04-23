@@ -71,6 +71,8 @@ class AuthController extends Controller
             Mail::to($request->email)->send(new \App\Mail\VerifyOtpMail($otp, $request->name));
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('OTP Email failed: ' . $e->getMessage());
+            Session::forget(['registration_data', 'registration_otp']);
+            return back()->withErrors(['email' => 'Failed to send OTP because of Mail Server Error: ' . $e->getMessage()])->withInput();
         }
 
         return redirect()->route('verify.otp')->with('success', 'OTP sent to your email! Please verify to complete registration.');
@@ -134,6 +136,7 @@ class AuthController extends Controller
             Mail::to($registrationData['email'])->send(new \App\Mail\VerifyOtpMail($otp, $registrationData['name']));
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Resend OTP Email failed: ' . $e->getMessage());
+            return back()->withErrors(['email' => 'Mail Server Error while resending: ' . $e->getMessage()]);
         }
 
         return back()->with('success', 'A new OTP has been sent successfully.');

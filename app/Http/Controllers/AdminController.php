@@ -56,6 +56,7 @@ class AdminController extends Controller
             \Illuminate\Support\Facades\Mail::to($appointment->email)->send(new \App\Mail\BookingAcceptedMail($appointment));
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Failed to send booking acceptance email: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Appointment status saved, but email blocked by Mail Server: ' . $e->getMessage());
         }
 
         return redirect()->back()->with('success', 'Appointment accepted & email sent.');
