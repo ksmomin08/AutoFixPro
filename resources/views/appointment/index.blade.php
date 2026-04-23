@@ -155,19 +155,48 @@
         color: var(--primary);
     }
 
-    .model-photo {
+    .model-visual-wrapper {
         width: 100%;
         height: 100px;
-        object-fit: contain;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-bottom: 10px;
+        position: relative;
+        background: #f1f5f9;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .model-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        z-index: 2;
+    }
+
+    .bike-silhouette {
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        opacity: 0.15;
+        z-index: 1;
+        transition: var(--transition);
+    }
+
+    .selection-card:hover .bike-silhouette,
+    .selection-card.active .bike-silhouette {
+        opacity: 0.3;
+        transform: scale(1.1);
     }
 
     .selection-card h6 {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 700;
-        margin-bottom: 0;
+        margin-top: 5px;
         color: var(--text-dark);
         text-transform: uppercase;
+        line-height: 1.2;
     }
 
     #model-selection-area {
@@ -785,15 +814,27 @@
             $modelsContainer.empty();
             const models = bikeData[brand] || [];
             
+            // Get brand color for silhouette
+            const brandObj = {!! json_encode($brands) !!}.find(b => b.name === brand);
+            const brandColor = brandObj ? (brandObj.color || '#0f3b6f') : '#0f3b6f';
+
             if (models.length === 0) {
                 $modelsContainer.append('<div class="col-12 text-center p-4"><p class="text-muted">More models coming soon. Please enter manually.</p></div>');
             }
 
             models.forEach(model => {
-                const photoSrc = model.photo || 'https://cdn-icons-png.flaticon.com/512/3198/3198336.png'; // Fallback icon
+                const silhouetteSvg = `
+                    <svg class="bike-silhouette" viewBox="0 0 512 512" fill="${brandColor}">
+                        <path d="M416 352c-26.5 0-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48s-21.5-48-48-48zM192 128c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h128c17.7 0 32-14.3 32-32zm256 0c0-17.7-14.3-32-32-32H288c-17.7 0-32 14.3-32 32s14.3 32 32 32h128c17.7 0 32-14.3 32-32zM96 352c-26.5 0-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48s-21.5-48-48-48zm350.2-121.3L389 130.7c-2.4-5.2-7.6-8.7-13.3-8.7h-73.4c-8.2 0-14.9 6.7-14.9 14.9v21.3c0 8.2 6.7 14.9 14.9 14.9h54.9l43.2 92.5c2.4 5.2 7.6 8.7 13.3 8.7h54.9c8.2 0 14.9-6.7 14.9-14.9v-21.3c-.1-8.2-6.8-14.9-15-14.9zM256 160c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h96c8.8 0 16-7.2 16-16v-96c0-8.8-7.2-16-16-16h-96z"/>
+                    </svg>
+                `;
+
                 const modelHtml = `
                     <div class="selection-card model-card animate-fade-in" data-model="${brand} ${model.name}">
-                        <img src="${photoSrc}" alt="${model.name}" class="model-photo" style="${!model.photo ? 'opacity:0.3; padding:20px;' : ''}">
+                        <div class="model-visual-wrapper">
+                            ${silhouetteSvg}
+                            ${model.photo ? `<img src="${model.photo}" alt="${model.name}" class="model-photo">` : ''}
+                        </div>
                         <h6>${model.name}</h6>
                     </div>
                 `;
