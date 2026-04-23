@@ -69,3 +69,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/queries', [\App\Http\Controllers\AdminController::class, 'queries'])->name('queries');
     Route::delete('/queries/{id}', [\App\Http\Controllers\AdminController::class, 'deleteQuery'])->name('queries.destroy');
 });
+
+Route::get('/clear-cache', function() {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    return 'Live Server Cache Cleared Successfully! Now try registering again.';
+});
