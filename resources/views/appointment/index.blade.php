@@ -67,12 +67,31 @@
         margin-right: 15px;
     }
 
-    /* Brand & Model Selector Styles */
+    .brand-search {
+        margin-bottom: 20px;
+    }
+
+    .brand-search input {
+        border-radius: 12px;
+        padding: 10px 20px;
+        border: 2px solid #e2e8f0;
+        width: 100%;
+        transition: var(--transition);
+    }
+
+    .brand-search input:focus {
+        border-color: var(--primary);
+        outline: none;
+    }
+
     .selection-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
         gap: 15px;
         margin-bottom: 20px;
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 5px;
     }
 
     .selection-card {
@@ -84,6 +103,11 @@
         cursor: pointer;
         transition: var(--transition);
         position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px;
     }
 
     .selection-card:hover {
@@ -109,18 +133,26 @@
         font-size: 1.2rem;
     }
 
-    .brand-logo {
+    .brand-logo, .brand-icon-placeholder {
         width: 60px;
         height: 60px;
         object-fit: contain;
         margin-bottom: 10px;
         filter: grayscale(1);
         transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #94a3b8;
     }
 
     .selection-card:hover .brand-logo,
-    .selection-card.active .brand-logo {
+    .selection-card.active .brand-logo,
+    .selection-card:hover .brand-icon-placeholder,
+    .selection-card.active .brand-icon-placeholder {
         filter: grayscale(0);
+        color: var(--primary);
     }
 
     .model-photo {
@@ -131,10 +163,11 @@
     }
 
     .selection-card h6 {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 700;
         margin-bottom: 0;
         color: var(--text-dark);
+        text-transform: uppercase;
     }
 
     #model-selection-area {
@@ -165,6 +198,23 @@
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Custom Scrollbar */
+    .selection-grid::-webkit-scrollbar {
+        width: 6px;
+    }
+    .selection-grid::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+    }
+    .selection-grid::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+    .selection-grid::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
 </style>
 @endsection
 
@@ -236,27 +286,51 @@
 
                                     <div class="mb-4">
                                         <label class="form-label booking-label"><i class="fas fa-motorcycle me-2 text-primary"></i> 1. SELECT BIKE BRAND</label>
-                                        <div class="selection-grid">
-                                            <div class="selection-card brand-card" data-brand="Royal Enfield">
-                                                <img src="{{ asset('images/bikes/re_logo.png') }}" alt="RE" class="brand-logo">
-                                                <h6>ROYAL ENFIELD</h6>
+                                        
+                                        <div class="brand-search">
+                                            <input type="text" id="brand-filter" placeholder="Search your brand (e.g. Honda, BMW, Ducati)...">
+                                        </div>
+
+                                        <div class="selection-grid" id="brands-grid">
+                                            @php
+                                                $brands = [
+                                                    ['name' => 'Honda', 'logo' => 'honda_logo.png'],
+                                                    ['name' => 'TVS', 'logo' => 'tvs_logo.png'],
+                                                    ['name' => 'Royal Enfield', 'logo' => 're_logo.png'],
+                                                    ['name' => 'Hero', 'logo' => 'hero_logo.png'],
+                                                    ['name' => 'Yamaha', 'logo' => 'yamaha_logo.png'],
+                                                    ['name' => 'Bajaj', 'logo' => 'bajaj_logo.png'],
+                                                    ['name' => 'KTM', 'logo' => 'ktm_logo.png'],
+                                                    ['name' => 'Suzuki', 'logo' => 'suzuki_logo.png', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Keeway', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Aprilia', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Benelli', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'BMW', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'CFMoto', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Ducati', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Harley Davidson', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Husqvarna', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Indian', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Jawa', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Kawasaki', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Moto Guzzi', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Moto Morini', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Norton', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Triumph', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'Yezdi', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                ];
+                                            @endphp
+
+                                            @foreach($brands as $brand)
+                                            <div class="selection-card brand-card" data-brand="{{ $brand['name'] }}">
+                                                @if(!empty($brand['logo']) && file_exists(public_path('images/bikes/' . $brand['logo'])))
+                                                    <img src="{{ asset('images/bikes/' . $brand['logo']) }}" alt="{{ $brand['name'] }}" class="brand-logo">
+                                                @else
+                                                    <div class="brand-icon-placeholder"><i class="{{ $brand['icon'] ?? 'fas fa-motorcycle' }}"></i></div>
+                                                @endif
+                                                <h6>{{ $brand['name'] }}</h6>
                                             </div>
-                                            <div class="selection-card brand-card" data-brand="Honda">
-                                                <img src="{{ asset('images/bikes/honda_logo.png') }}" alt="Honda" class="brand-logo">
-                                                <h6>HONDA</h6>
-                                            </div>
-                                            <div class="selection-card brand-card" data-brand="Yamaha">
-                                                <img src="{{ asset('images/bikes/yamaha_logo.png') }}" alt="Yamaha" class="brand-logo">
-                                                <h6>YAMAHA</h6>
-                                            </div>
-                                            <div class="selection-card brand-card" data-brand="KTM">
-                                                <img src="{{ asset('images/bikes/ktm_logo.png') }}" alt="KTM" class="brand-logo">
-                                                <h6>KTM</h6>
-                                            </div>
-                                            <div class="selection-card brand-card" data-brand="Bajaj">
-                                                <img src="{{ asset('images/bikes/bajaj_logo.png') }}" alt="Bajaj" class="brand-logo">
-                                                <h6>BAJAJ</h6>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
 
@@ -309,26 +383,66 @@
 @section('scripts')
 <script>
     const bikeData = {
-        'Royal Enfield': [
-            { name: 'Classic 350', photo: '{{ asset("images/bikes/re_classic.png") }}' },
-            { name: 'Himalayan', photo: '{{ asset("images/bikes/re_himalayan.png") }}' }
-        ],
         'Honda': [
             { name: 'Shine 125', photo: '{{ asset("images/bikes/honda_shine.png") }}' },
-            { name: 'Activa 6G', photo: '{{ asset("images/bikes/honda_activa.png") }}' }
+            { name: 'Activa 6G', photo: '{{ asset("images/bikes/honda_activa.png") }}' },
+            { name: 'SP125', photo: '' },
+            { name: 'CB350', photo: '' }
+        ],
+        'TVS': [
+            { name: 'Apache RTR 160', photo: '' },
+            { name: 'Raider 125', photo: '' },
+            { name: 'Jupiter', photo: '' },
+            { name: 'NTORQ', photo: '' }
+        ],
+        'Royal Enfield': [
+            { name: 'Classic 350', photo: '{{ asset("images/bikes/re_classic.png") }}' },
+            { name: 'Himalayan', photo: '{{ asset("images/bikes/re_himalayan.png") }}' },
+            { name: 'Hunter 350', photo: '' },
+            { name: 'Meteor 350', photo: '' }
+        ],
+        'Hero': [
+            { name: 'Splendor Plus', photo: '' },
+            { name: 'HF Deluxe', photo: '' },
+            { name: 'Xpulse 200', photo: '' },
+            { name: 'Karizma XMR', photo: '' }
         ],
         'Yamaha': [
             { name: 'R15 V4', photo: '{{ asset("images/bikes/yamaha_r15.png") }}' },
-            { name: 'MT-15', photo: '{{ asset("images/bikes/yamaha_mt15.png") }}' }
-        ],
-        'KTM': [
-            { name: 'Duke 390', photo: '{{ asset("images/bikes/ktm_duke.png") }}' },
-            { name: 'RC 200', photo: '{{ asset("images/bikes/ktm_rc200.png") }}' }
+            { name: 'MT-15', photo: '{{ asset("images/bikes/yamaha_mt15.png") }}' },
+            { name: 'FZ-S', photo: '' }
         ],
         'Bajaj': [
             { name: 'Pulsar NS200', photo: '{{ asset("images/bikes/bajaj_pulsar.png") }}' },
-            { name: 'Dominar 400', photo: '{{ asset("images/bikes/bajaj_dominar.png") }}' }
-        ]
+            { name: 'Dominar 400', photo: '{{ asset("images/bikes/bajaj_dominar.png") }}' },
+            { name: 'Avenger', photo: '' }
+        ],
+        'KTM': [
+            { name: 'Duke 390', photo: '{{ asset("images/bikes/ktm_duke.png") }}' },
+            { name: 'RC 200', photo: '{{ asset("images/bikes/ktm_rc200.png") }}' },
+            { name: 'Adventure 390', photo: '' }
+        ],
+        'Suzuki': [
+            { name: 'Access 125', photo: '' },
+            { name: 'Gixxer SF', photo: '' },
+            { name: 'V-Strom SX', photo: '' }
+        ],
+        'Aprilia': [ { name: 'RS 457', photo: '' }, { name: 'SR 160', photo: '' } ],
+        'BMW': [ { name: 'G310R', photo: '' }, { name: 'G310 GS', photo: '' }, { name: 'S1000RR', photo: '' } ],
+        'Ducati': [ { name: 'Panigale V4', photo: '' }, { name: 'Monster', photo: '' }, { name: 'Scrambler', photo: '' } ],
+        'Harley Davidson': [ { name: 'X440', photo: '' }, { name: 'Nightster', photo: '' } ],
+        'Kawasaki': [ { name: 'Ninja 300', photo: '' }, { name: 'Z900', photo: '' }, { name: 'ZX-10R', photo: '' } ],
+        'Triumph': [ { name: 'Speed 400', photo: '' }, { name: 'Scrambler 400X', photo: '' }, { name: 'Tiger 900', photo: '' } ],
+        'Jawa': [ { name: '42', photo: '' }, { name: 'Perak', photo: '' }, { name: '350', photo: '' } ],
+        'Yezdi': [ { name: 'Roadster', photo: '' }, { name: 'Adventure', photo: '' }, { name: 'Scrambler', photo: '' } ],
+        'Husqvarna': [ { name: 'Vitpilen 250', photo: '' }, { name: 'Svartpilen 401', photo: '' } ],
+        'Benelli': [ { name: 'TRK 502', photo: '' }, { name: 'Leoncino 500', photo: '' } ],
+        'Keeway': [ { name: 'V302C', photo: '' } ],
+        'CFMoto': [ { name: '300NK', photo: '' }, { name: '650NK', photo: '' } ],
+        'Indian': [ { name: 'Scout', photo: '' }, { name: 'Chief', photo: '' } ],
+        'Moto Guzzi': [ { name: 'V85 TT', photo: '' } ],
+        'Moto Morini': [ { name: 'X-Cape', photo: '' } ],
+        'Norton': [ { name: 'Commando', photo: '' } ]
     };
 
     $(document).ready(function() {
@@ -338,8 +452,22 @@
         const $selectedVehicleInput = $('#selected-vehicle');
         const $manualInputArea = $('#manual-vehicle-input');
         const $manualInputLink = $('#show-manual-input');
+        const $brandFilter = $('#brand-filter');
 
         let selectedBrand = '';
+
+        // Brand Search Filter
+        $brandFilter.on('input', function() {
+            const query = $(this).val().toLowerCase();
+            $('.brand-card').each(function() {
+                const brand = $(this).data('brand').toLowerCase();
+                if (brand.includes(query)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
 
         $brandCards.on('click', function() {
             $brandCards.removeClass('active');
@@ -357,12 +485,17 @@
 
         function renderModels(brand) {
             $modelsContainer.empty();
-            const models = bikeData[brand];
+            const models = bikeData[brand] || [];
             
+            if (models.length === 0) {
+                $modelsContainer.append('<div class="col-12 text-center p-4"><p class="text-muted">More models coming soon. Please enter manually.</p></div>');
+            }
+
             models.forEach(model => {
+                const photoSrc = model.photo || 'https://cdn-icons-png.flaticon.com/512/3198/3198336.png'; // Fallback icon
                 const modelHtml = `
                     <div class="selection-card model-card animate-fade-in" data-model="${brand} ${model.name}">
-                        <img src="${model.photo}" alt="${model.name}" class="model-photo">
+                        <img src="${photoSrc}" alt="${model.name}" class="model-photo" style="${!model.photo ? 'opacity:0.3; padding:20px;' : ''}">
                         <h6>${model.name}</h6>
                     </div>
                 `;
@@ -380,7 +513,7 @@
         }
 
         $('#show-manual-input').on('click', function() {
-            $brandCards.parent().parent().hide();
+            $('.booking-label').first().parent().hide();
             $modelArea.hide();
             $manualInputArea.show();
             $(this).hide();
@@ -389,7 +522,7 @@
         });
 
         $('#show-visual-selector').on('click', function() {
-            $brandCards.parent().parent().show();
+            $('.booking-label').first().parent().show();
             $manualInputArea.hide();
             $manualInputLink.show();
             $('#manual-vehicle').removeAttr('required');
