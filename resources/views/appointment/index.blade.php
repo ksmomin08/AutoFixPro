@@ -313,20 +313,27 @@
                                                     ['name' => 'Aprilia', 'logo' => 'aprilia_logo.png'],
                                                     ['name' => 'Benelli', 'logo' => 'benelli_logo.png'],
                                                     ['name' => 'Keeway', 'logo' => 'keeway_logo.png'],
-                                                    ['name' => 'CFMoto', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
-                                                    ['name' => 'Indian', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
-                                                    ['name' => 'Moto Guzzi', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
-                                                    ['name' => 'Moto Morini', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
-                                                    ['name' => 'Norton', 'logo' => '', 'icon' => 'fas fa-motorcycle'],
+                                                    ['name' => 'CFMoto', 'logo' => 'cfmoto_logo.png', 'icon' => 'fas fa-motorcycle', 'color' => '#00529b'],
+                                                    ['name' => 'Indian', 'logo' => 'indian_logo.png', 'icon' => 'fas fa-motorcycle', 'color' => '#8b0000'],
+                                                    ['name' => 'Moto Guzzi', 'logo' => 'motoguzzi_logo.png', 'icon' => 'fas fa-motorcycle', 'color' => '#d4af37'],
+                                                    ['name' => 'Moto Morini', 'logo' => 'motomorini_logo.png', 'icon' => 'fas fa-motorcycle', 'color' => '#e21d1d'],
+                                                    ['name' => 'Norton', 'logo' => 'norton_logo.png', 'icon' => 'fas fa-motorcycle', 'color' => '#2d2d2d'],
                                                 ];
                                             @endphp
 
                                             @foreach($brands as $brand)
                                             <div class="selection-card brand-card" data-brand="{{ $brand['name'] }}">
-                                                @if(!empty($brand['logo']) && file_exists(public_path('images/bikes/' . $brand['logo'])))
+                                                @php
+                                                    $logoPath = public_path('images/bikes/' . ($brand['logo'] ?: 'none'));
+                                                    $hasLogo = !empty($brand['logo']) && file_exists($logoPath) && filesize($logoPath) > 10000;
+                                                @endphp
+
+                                                @if($hasLogo)
                                                     <img src="{{ asset('images/bikes/' . $brand['logo']) }}" alt="{{ $brand['name'] }}" class="brand-logo">
                                                 @else
-                                                    <div class="brand-icon-placeholder"><i class="{{ $brand['icon'] ?? 'fas fa-motorcycle' }}"></i></div>
+                                                    <div class="brand-icon-placeholder" style="color: {{ $brand['color'] ?? 'inherit' }}">
+                                                        <i class="{{ $brand['icon'] ?? 'fas fa-motorcycle' }}"></i>
+                                                    </div>
                                                 @endif
                                                 <h6>{{ $brand['name'] }}</h6>
                                             </div>
