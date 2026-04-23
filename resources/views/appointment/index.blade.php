@@ -420,7 +420,7 @@
 <script>
     const bikeData = {
         'Honda': [
-            { name: 'Shine (2006–Present)',                photo:  '{{ asset("images/bikes/honda_shine.png") }}' },
+            { name: 'Shine (2006–Present)',                photo:  '{{ asset("images/bikes/honda/img 1.png") }}' },
             { name: 'SP 125 (2019–Present)',               photo:  '{{ asset("images/bikes/honda/img 2.png") }}' },
             { name: 'CD 110 Dream (2014–Present)',         photo:  '{{ asset("images/bikes/honda/img 3.png") }}' },
             { name: 'Livo (2015–Present)',                 photo:  '{{ asset("images/bikes/honda/img 4.png") }}' },
