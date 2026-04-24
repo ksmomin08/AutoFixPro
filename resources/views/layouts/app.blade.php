@@ -14,6 +14,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            },
             theme: {
                 extend: {
                     colors: {
@@ -147,12 +150,26 @@
         .admin:hover{
             color: #25d366
         }
+
+        /* Navbar Visibility Fix for Tailwind Conflict */
+        .navbar-collapse.collapse:not(.show) {
+            display: none !important;
+        }
+        @media (min-width: 768px) {
+            .navbar-collapse.collapse {
+                display: flex !important;
+            }
+        }
+        .navbar-toggler {
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 8px;
+        }
     </style>
     @yield('styles')
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-md">
         <div class="container">
             <a class="logo" href="{{ route('home') }}">
                 <div class="logo-icon"><i class="fas fa-wrench"></i></div>
