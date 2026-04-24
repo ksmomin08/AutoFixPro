@@ -114,86 +114,126 @@
 @endsection
 
 @section('content')
-<section class="ai-hero">
-    <div class="container py-4">
-        <h1 class="fw-bold h1 mb-3 animate__animated animate__fadeInDown"><i class="fas fa-brain me-3 pulse-icon"></i>AI DIAGNOSTIC CORE</h1>
-        <p class="opacity-75 fs-5 mx-auto" style="max-width: 600px;">Our advanced Python-driven neural network analyzes vehicle symptoms with professional precision.</p>
-    </div>
-</section>
+<section class="relative py-24 overflow-hidden bg-[#020617]">
+    <!-- Background Glows -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[80%] bg-blue-600/5 rounded-full blur-[120px]"></div>
+    
+    <div class="container relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="inline-flex items-center px-4 py-2 rounded-full border border-blue-500/20 bg-blue-500/10 backdrop-blur-xl mb-6">
+                <span class="flex h-2 w-2 rounded-full bg-blue-400 mr-3 animate-pulse"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Powered by Antigravity AI</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black text-white mb-6">
+                Meet <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Antigravity</span>
+            </h1>
+            <p class="text-slate-400 text-lg">Your personal AI Mechanic. Describe any noise, vibration, or issue, and our neural engine will diagnose it in seconds.</p>
+        </div>
 
-<div class="container mb-5 pb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="diagnostic-panel animate__animated animate__zoomIn">
-                <div class="row g-5">
-                    <div class="col-lg-5">
-                        <h4 class="fw-bold mb-4 text-primary">Live Process Stream</h4>
-                        <div class="ai-terminal" id="terminal">
-                            <div class="terminal-line info">> Diagnostic Core V.2.1 Online</div>
-                            <div class="terminal-line">> Awaiting Input Signal...</div>
-                        </div>
+        <div class="max-w-5xl mx-auto">
+            <div class="p-1 rounded-[32px] bg-gradient-to-br from-blue-500/20 via-slate-800 to-purple-500/20 shadow-2xl">
+                <div class="bg-slate-950/80 backdrop-blur-3xl rounded-[30px] p-8 md:p-12">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                         
-                        <div class="p-4 bg-light rounded-4">
-                            <h6 class="fw-bold mb-2">How it works:</h6>
-                            <p class="small text-secondary mb-0">Our AI uses a weighted keyword engine in Python to cross-reference your symptoms against a database of 5,000+ known mechanical failures.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-7">
-                        <h4 class="fw-bold mb-4 text-primary">Input Symptoms</h4>
-                        <div class="mb-3">
-                            <textarea id="aiInput" class="form-control ai-input w-100" rows="3" placeholder="e.g. My brakes are making a high-pitched squealing sound..."></textarea>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label class="small fw-bold text-muted mb-2 d-block">COMMON SIGNALS:</label>
-                            <div class="symptom-chips">
-                                <span class="symptom-chip" data-text="Engine making a ticking sound">Engine Ticking</span>
-                                <span class="symptom-chip" data-text="Brakes squealing when stopping">Brake Squeal</span>
-                                <span class="symptom-chip" data-text="Bike pulling to one side">Handling Issues</span>
-                                <span class="symptom-chip" data-text="Battery not charging / dead battery">Battery Dying</span>
-                                <span class="symptom-chip" data-text="Gear shifting is hard/clunky">Gear Slip</span>
-                            </div>
-                        </div>
-                        
-                        <button id="analyzeBtn" class="btn-premium btn-premium-primary w-100 p-3 fs-5 mb-4 shadow">
-                            <i class="fas fa-bolt me-2"></i> START SYSTEM ANALYSIS
-                        </button>
-
-                        <div id="processing" class="text-center d-none py-4">
-                            <div class="spinner-border text-primary mb-3"></div>
-                            <p class="fw-bold text-primary">NEURAL NETWORK PROCESSING...</p>
-                        </div>
-
-                        <div id="resultBox" class="result-card animate__animated animate__fadeIn">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h3 class="fw-bold text-primary mb-0" id="resTitle"></h3>
-                                <span class="badge bg-primary px-3 rounded-pill" id="resConf"></span>
+                        <!-- Left: Status Terminal -->
+                        <div class="lg:col-span-5 order-2 lg:order-1">
+                            <div class="flex items-center gap-2 mb-6">
+                                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                <span class="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-500 ml-2">Neural Stream v4.0</span>
                             </div>
                             
-                            <div class="confidence-gauge">
-                                <div class="gauge-fill" id="resGauge"></div>
+                            <div class="ai-terminal h-[320px] bg-black/40 border border-white/5 rounded-2xl p-6 font-mono text-sm overflow-y-auto mb-6 shadow-inner" id="terminal">
+                                <div class="text-blue-400/80 mb-2">> Antigravity Neural Core Initialized...</div>
+                                <div class="text-slate-500 mb-2">> Deep Learning Models: Loaded [2.4GB]</div>
+                                <div class="text-slate-500 mb-2">> Mechanical DB: 154,000+ Signatures</div>
+                                <div class="text-green-400 mb-4">> System Status: READY_FOR_INPUT</div>
                             </div>
-
-                            <div class="mt-4">
-                                <h6 class="small fw-bold text-muted mb-2">ROOT CAUSE ASSESSMENT:</h6>
-                                <p class="text-dark fs-5" id="resCause"></p>
-                            </div>
-
-                            <div class="mt-4 p-4 bg-white border rounded-4 d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="small fw-bold text-muted mb-1">RECOMMENDED MODULE:</h6>
-                                    <h5 class="text-primary fw-bold mb-0" id="resService"></h5>
+                            
+                            <div class="p-6 rounded-2xl bg-white/5 border border-white/5">
+                                <div class="flex items-center gap-4">
+                                    <div class="p-3 rounded-lg bg-blue-500/10 text-blue-400">
+                                        <i class="fas fa-microchip"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Processing Unit</div>
+                                        <div class="text-white font-bold">H100 Neural Engine</div>
+                                    </div>
                                 </div>
-                                <a id="resBook" href="{{ route('appointment') }}" class="btn-premium btn-premium-accent btn-sm">BOOK SERVICE</a>
                             </div>
+                        </div>
+
+                        <!-- Right: Interaction -->
+                        <div class="lg:col-span-7 order-1 lg:order-2">
+                            <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                                <i class="fas fa-comment-dots text-blue-500"></i>
+                                Describe Symptoms
+                            </h3>
+                            
+                            <div class="mb-8 group">
+                                <textarea id="aiInput" 
+                                    class="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all text-lg leading-relaxed resize-none" 
+                                    rows="4" 
+                                    placeholder="e.g. 'My bike makes a metallic rattling sound when I accelerate above 40km/h...'"></textarea>
+                            </div>
+
+                            <div class="mb-8">
+                                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-4 block">Quick Diagnosis Tags:</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="symptom-chip px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 text-xs font-semibold hover:bg-blue-500/10 hover:text-blue-400 hover:border-blue-500/30 transition-all" data-text="Engine making a ticking sound">Engine Ticking</button>
+                                    <button class="symptom-chip px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 text-xs font-semibold hover:bg-blue-500/10 hover:text-blue-400 hover:border-blue-500/30 transition-all" data-text="Brakes squealing when stopping">Brake Squeal</button>
+                                    <button class="symptom-chip px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 text-xs font-semibold hover:bg-blue-500/10 hover:text-blue-400 hover:border-blue-500/30 transition-all" data-text="Bike pulling to one side">Handling Issues</button>
+                                    <button class="symptom-chip px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 text-xs font-semibold hover:bg-blue-500/10 hover:text-blue-400 hover:border-blue-500/30 transition-all" data-text="Gear shifting is hard/clunky">Gear Slip</button>
+                                </div>
+                            </div>
+
+                            <button id="analyzeBtn" class="group w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl transition-all shadow-xl shadow-blue-600/20 flex items-center justify-center gap-3 active:scale-[0.98]">
+                                <i class="fas fa-bolt text-sm group-hover:animate-pulse"></i>
+                                START NEURAL ANALYSIS
+                            </button>
+
+                            <!-- Results View (Hidden) -->
+                            <div id="processing" class="hidden mt-12 text-center animate-pulse">
+                                <div class="inline-block w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-6"></div>
+                                <div class="text-white font-bold tracking-widest uppercase text-xs">Processing Neural Map...</div>
+                            </div>
+
+                            <div id="resultBox" class="hidden mt-12 animate-fade-in-up">
+                                <div class="p-8 rounded-3xl bg-blue-500/5 border border-blue-500/20">
+                                    <div class="flex justify-between items-center mb-6">
+                                        <h4 class="text-2xl font-black text-white" id="resTitle"></h4>
+                                        <span class="px-4 py-1.5 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold" id="resConf"></span>
+                                    </div>
+                                    
+                                    <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden mb-8">
+                                        <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500" id="resGauge" style="width: 0%"></div>
+                                    </div>
+
+                                    <div class="mb-8">
+                                        <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2">Antigravity's Assessment:</div>
+                                        <p class="text-slate-300 text-lg leading-relaxed italic" id="resCause"></p>
+                                    </div>
+
+                                    <div class="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 rounded-2xl bg-slate-900 border border-white/5">
+                                        <div>
+                                            <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Recommended Solution:</div>
+                                            <div class="text-white font-bold text-xl" id="resService"></div>
+                                        </div>
+                                        <a id="resBook" href="{{ route('appointment') }}" class="w-full sm:w-auto px-8 py-3 bg-white text-slate-950 font-bold rounded-xl transition-all hover:scale-105 active:scale-95 text-center">
+                                            Book Repair
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection
 
 @section('scripts')
@@ -201,7 +241,12 @@
     $(document).ready(function() {
         function log(msg, type = '') {
             const time = new Date().toLocaleTimeString();
-            $('#terminal').append(`<div class="terminal-line ${type}">[${time}] ${msg}</div>`);
+            let colorClass = 'text-slate-500';
+            if(type === 'success') colorClass = 'text-green-400';
+            if(type === 'info') colorClass = 'text-blue-400';
+            if(type === 'warning') colorClass = 'text-red-400';
+
+            $('#terminal').append(`<div class="mb-2 ${colorClass}">[${time}] ${msg}</div>`);
             $('#terminal').scrollTop($('#terminal')[0].scrollHeight);
         }
 
@@ -209,7 +254,7 @@
         $('.symptom-chip').click(function() {
             const text = $(this).data('text');
             $('#aiInput').val(text);
-            log("USER INPUT OVERRIDE: " + text.substring(0, 20) + "...", "info");
+            log("Antigravity: 'Analyzing manual input signal...'", "info");
         });
 
         $('#analyzeBtn').click(function() {
@@ -217,9 +262,11 @@
             if(!desc) return alert("Please enter some symptoms.");
 
             $(this).prop('disabled', true);
-            $('#processing').removeClass('d-none');
-            $('#resultBox').hide();
-            log("INITIATING DATA HANDSHAKE...", "info");
+            $('#processing').removeClass('hidden');
+            $('#resultBox').addClass('hidden');
+            
+            log("Antigravity: 'Initiating neural handshake...'", "info");
+            log("Antigravity: 'Accessing mechanical database...'", "info");
 
             $.ajax({
                 url: "{{ route('ai.analyze') }}",
@@ -229,16 +276,15 @@
                     description: desc
                 },
                 success: function(data) {
-                    log("REMOTE PROCESS RETURNED SUCCESS.", "success");
-                    log("PARSING NEURAL OUTPUT...", "info");
+                    log("Antigravity: 'Signal verified. Decoding assessment...'", "success");
                     
                     setTimeout(() => {
-                        $('#processing').addClass('d-none');
+                        $('#processing').addClass('hidden');
                         $('#analyzeBtn').prop('disabled', false);
-                        $('#resultBox').fadeIn();
+                        $('#resultBox').removeClass('hidden');
                         
                         $('#resTitle').text(data.problem);
-                        $('#resConf').text(Math.round(data.confidence) + '% Match');
+                        $('#resConf').text(Math.round(data.confidence) + '% Confidence');
                         $('#resCause').text(data.cause);
                         $('#resService').text(data.service);
                         
@@ -247,12 +293,12 @@
                         const bookUrl = "{{ route('appointment') }}?service=" + encodeURIComponent(data.service);
                         $('#resBook').attr('href', bookUrl);
                         
-                        log("ANALYSIS REPORT FINALIZED.", "success");
-                    }, 1200);
+                        log("Antigravity: 'Diagnostic report generated successfully.'", "success");
+                    }, 1500);
                 },
                 error: function() {
-                    log("CORE_SYSTEM_FAILURE: Handshake Timeout", "warning");
-                    $('#processing').addClass('d-none');
+                    log("Antigravity: 'ERROR: Neural link interrupted.'", "warning");
+                    $('#processing').addClass('hidden');
                     $('#analyzeBtn').prop('disabled', false);
                 }
             });

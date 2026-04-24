@@ -1,133 +1,53 @@
 @extends('layouts.app')
 
-@section('title', 'AutoFixPro | Precision Bike Care')
+@section('title', 'AutoFixPro | Precision Vehicle Care')
 
 @section('styles')
 <style>
-    .hero-section {
-        background: linear-gradient(120deg, #eef2ff 0%, #ffffff 100%);
-        padding: 100px 0;
-        min-height: 80vh;
-        display: flex;
-        align-items: center;
+    /* Premium Page Overrides */
+    body {
+        background-color: #020617;
     }
-
-    .hero-badge {
-        background: white;
-        display: inline-block;
-        padding: 8px 20px;
-        border-radius: 60px;
-        font-weight: 600;
-        color: var(--primary);
-        box-shadow: var(--shadow-sm);
-        margin-bottom: 25px;
+    .navbar {
+        background: rgba(2, 6, 23, 0.8) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
-
-    .hero-title {
-        font-size: 3.8rem;
-        line-height: 1.1;
-        margin-bottom: 20px;
+    .nav-link {
+        color: rgba(255, 255, 255, 0.7) !important;
     }
-
-    .hero-desc {
-        font-size: 1.15rem;
-        color: var(--text-muted);
-        max-width: 550px;
-        margin-bottom: 35px;
+    .nav-link:hover, .nav-link.active {
+        color: white !important;
     }
-
-    .feature-icon {
-        width: 60px;
-        height: 60px;
-        background: rgba(15, 59, 111, 0.05);
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        color: var(--primary);
-        margin-bottom: 20px;
-    }
-
-    .stat-number {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: var(--primary);
-        display: block;
-    }
-
-    /* Testimonial Styles */
+    
+    /* Review Card Glassmorphism */
     .testimonial-card {
-        background: white;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 24px;
-        padding: 35px;
-        border: 1px solid #f1f5f9;
-        transition: var(--transition);
-        position: relative;
-        height: 100%;
+        padding: 30px;
+        transition: all 0.3s ease;
     }
-
     .testimonial-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--primary-light);
+        border-color: rgba(59, 130, 246, 0.3);
+        transform: translateY(-5px);
     }
-
-    .quote-icon {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 3rem;
-        color: #eef2ff;
-        z-index: 0;
-    }
-
     .testimonial-text {
-        position: relative;
-        z-index: 1;
+        color: #94a3b8;
         font-style: italic;
-        color: var(--text-dark);
-        margin-bottom: 25px;
     }
-
     .user-avatar {
-        width: 50px;
-        height: 50px;
-        background: var(--gradient-primary);
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
         color: white;
+        width: 45px;
+        height: 45px;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 700;
-        margin-right: 15px;
+        font-weight: bold;
     }
-
-    .star-rating {
-        color: #fbbf24;
-        font-size: 0.85rem;
-        margin-bottom: 15px;
-    }
-
-    /* Carousel Controls */
-    .carousel-control-prev, .carousel-control-next {
-        width: 50px;
-        height: 50px;
-        background: var(--primary);
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-        opacity: 0.8;
-    }
-
-    .carousel-control-prev { left: -70px; }
-    .carousel-control-next { right: -70px; }
-
-    @media (max-width: 1200px) {
-        .carousel-control-prev { left: 10px; }
-        .carousel-control-next { right: 10px; }
-    }
-
+    
     /* Star Rating Selection */
     .rating-select {
         display: flex;
@@ -135,167 +55,122 @@
         justify-content: flex-end;
         gap: 10px;
     }
-
     .rating-select input { display: none; }
     .rating-select label {
         cursor: pointer;
-        width: 30px;
-        height: 30px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'%3E%3C/polygon%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        transition: var(--transition);
+        font-size: 24px;
+        color: #334155;
+        transition: all 0.2s;
     }
-
+    .rating-select label:before { content: '★'; }
     .rating-select input:checked ~ label,
     .rating-select label:hover,
     .rating-select label:hover ~ label {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbbf24' stroke='%23fbbf24' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'%3E%3C/polygon%3E%3C/svg%3E");
+        color: #fbbf24;
     }
 
     .review-modal .modal-content {
-        border-radius: 32px;
-        border: none;
-        overflow: hidden;
-    }
-
-    .review-modal .modal-header {
-        background: var(--gradient-primary);
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
         color: white;
-        border: none;
-        padding: 30px;
     }
-
-    .review-modal .modal-body {
-        padding: 40px;
+    .review-modal .modal-header { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .review-modal .form-control {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        color: white;
+    }
+    .review-modal .form-control:focus {
+        background: rgba(30, 41, 59, 0.8);
+        border-color: #3b82f6;
+        box-shadow: none;
     }
 </style>
 @endsection
 
 @section('content')
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6">
-                    <div class="hero-badge animate__animated animate__fadeInDown">
-                        <i class="fas fa-medal me-2"></i> Trusted by 10k+ Riders
-                    </div>
-                    <h1 class="hero-title animate__animated animate__fadeInLeft">
-                        Precision <span style="color: var(--accent);">Bike Care</span> <br>For Peak Performance
-                    </h1>
-                    <p class="hero-desc animate__animated animate__fadeInLeft animate__delay-1s">
-                        Expert mechanics, genuine parts & AI-assisted diagnostics. Get your bike showroom-ready in just a few taps. We specialize in high-performance tuning and daily maintenance.
-                    </p>
-                    <div class="d-flex gap-3 animate__animated animate__fadeInUp animate__delay-1s">
-                        @auth
-                            <a href="{{ route('bookings') }}" class="btn-premium btn-premium-primary">
-                                <i class="fas fa-th-large mr-2"></i> GO TO DASHBOARD
-                            </a>
-                        @else
-                            <a href="{{ route('appointment') }}" class="btn-premium btn-premium-primary">
-                                <i class="fas fa-calendar-check mr-2"></i> BOOK SERVICE NOW
-                            </a>
-                        @endauth
-                        <a href="{{ route('ai.diagnostic') }}" class="btn-premium btn-premium-accent">
-                            <i class="fas fa-robot mr-2"></i> AI DIAGNOSIS
-                        </a>
-                    </div>
+    <!-- Main Hero Component -->
+    @include('components.hero')
+
+    <!-- Feature Section (Tailwind-Ready via Inline Styles) -->
+    <section class="py-24 bg-[#020617] relative border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Mastering Vehicle Longevity</h2>
+                    <p class="text-slate-400 text-lg">We combine expert craftsmanship with next-gen diagnostics to provide a service experience that's truly unmatched.</p>
                 </div>
-                <div class="col-lg-6">
-                    <div class="card-modern p-4 animate__animated animate__zoomIn">
-                        <img src="{{ asset('bg.png') }}" alt="Auto Hub" class="img-fluid rounded-4 shadow-sm mb-4">
-                        <div class="row text-center g-4">
-                            <div class="col-4">
-                                <span class="stat-number">98%</span>
-                                <small class="text-secondary fw-bold">Satisfaction</small>
-                            </div>
-                            <div class="col-4">
-                                <span class="stat-number">45m</span>
-                                <small class="text-secondary fw-bold">Avg Service</small>
-                            </div>
-                            <div class="col-4">
-                                <span class="stat-number">24/7</span>
-                                <small class="text-secondary fw-bold">Support</small>
-                            </div>
-                        </div>
+                <a href="{{ route('services') }}" class="text-blue-400 font-bold flex items-center hover:text-blue-300 transition-colors">
+                    Explore Services <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="p-8 rounded-3xl bg-slate-900/40 border border-white/5 hover:bg-slate-800/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 text-blue-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-shield-alt text-xl"></i>
                     </div>
+                    <h4 class="text-white font-bold text-xl mb-3">Premium Care</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">Top-tier synthetic oils and genuine OEM parts for every single service.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="p-8 rounded-3xl bg-slate-900/40 border border-white/5 hover:bg-slate-800/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-6 text-purple-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bolt text-xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-xl mb-3">Fast Turnaround</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">Most general services completed within 60 minutes. Get back on the road fast.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="p-8 rounded-3xl bg-slate-900/40 border border-white/5 hover:bg-slate-800/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-6 text-indigo-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-xl mb-3">Network Access</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">Book with 250+ certified workshop partners across major cities.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="p-8 rounded-3xl bg-slate-900/40 border border-white/5 hover:bg-slate-800/40 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6 text-emerald-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-headset text-xl"></i>
+                    </div>
+                    <h4 class="text-white font-bold text-xl mb-3">24/7 Support</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">Our experts are always available to help you with technical queries.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-5 bg-white">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold h1">Why Choose <span class="text-warning">AutoFixPro?</span></h2>
-                <p class="text-secondary">The gold standard in automotive maintenance and repair.</p>
-            </div>
-            <div class="row g-4 mt-4">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card-modern p-4 h-100 text-center border-0 shadow-none">
-                        <div class="feature-icon mx-auto"><i class="fas fa-user-shield"></i></div>
-                        <h4 class="fw-bold">Certified Techs</h4>
-                        <p class="text-secondary small">Our mechanics are factory-trained and highly experienced in all major brands.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card-modern p-4 h-100 text-center border-0 shadow-none">
-                        <div class="feature-icon mx-auto"><i class="fas fa-microchip"></i></div>
-                        <h4 class="fw-bold">AI Diagnostics</h4>
-                        <p class="text-secondary small">Precision fault detection using our proprietary Python-driven AI engine.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card-modern p-4 h-100 text-center border-0 shadow-none">
-                        <div class="feature-icon mx-auto"><i class="fas fa-box-open"></i></div>
-                        <h4 class="fw-bold">Genuine Parts</h4>
-                        <p class="text-secondary small">We only use 100% original manufacturer parts for maximum vehicle longevity.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card-modern p-4 h-100 text-center border-0 shadow-none">
-                        <div class="feature-icon mx-auto"><i class="fas fa-wallet"></i></div>
-                        <h4 class="fw-bold">Transparent Pricing</h4>
-                        <p class="text-secondary small">No hidden costs. Detailed invoices and upfront quotes for every service.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <section class="py-5 bg-light overflow-hidden">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold h1">What Our <span class="text-warning">Riders Say</span></h2>
-                <p class="text-secondary">Real feedback from our premium community of bike enthusiasts.</p>
+    <!-- Review Section -->
+    <section class="py-24 bg-[#020617] border-t border-white/5 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Trusted by the Community</h2>
+                <p class="text-slate-400">Join thousands of drivers who choose AutoFixPro for peace of mind.</p>
             </div>
 
-            <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    @php
-                        $chunks = $reviews->chunk(3);
-                    @endphp
-
+                    @php $chunks = $reviews->chunk(3); @endphp
                     @foreach($chunks as $index => $chunk)
                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                        <div class="row g-4 px-4">
+                        <div class="row g-4 justify-content-center">
                             @foreach($chunk as $review)
-                            <div class="col-lg-4 col-md-6">
-                                <div class="testimonial-card">
-                                    <i class="fas fa-quote-right quote-icon"></i>
-                                    <div class="star-rating">
-                                        @for($i = 0; $i < $review->stars; $i++)
-                                            <i class="fas fa-star"></i>
-                                        @endfor
-                                        @for($i = 0; $i < (5 - $review->stars); $i++)
-                                            <i class="far fa-star"></i>
+                            <div class="col-lg-4">
+                                <div class="testimonial-card h-100">
+                                    <div class="flex items-center gap-1 mb-4">
+                                        @for($i = 0; $i < 5; $i++)
+                                            <i class="fas fa-star text-sm {{ $i < $review->stars ? 'text-amber-400' : 'text-slate-700' }}"></i>
                                         @endfor
                                     </div>
-                                    <p class="testimonial-text">"{{ $review->text }}"</p>
-                                    <div class="d-flex align-items-center mt-auto">
-                                        <div class="user-avatar">{{ $review->initials }}</div>
+                                    <p class="testimonial-text mb-8 leading-relaxed">"{{ $review->text }}"</p>
+                                    <div class="flex items-center mt-auto">
+                                        <div class="user-avatar mr-4">{{ $review->initials }}</div>
                                         <div>
-                                            <h6 class="fw-bold mb-0">{{ $review->name }}</h6>
-                                            <small class="text-secondary">{{ $review->bike }}</small>
+                                            <h6 class="text-white font-bold mb-0">{{ $review->name }}</h6>
+                                            <small class="text-slate-500">{{ $review->bike }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -306,24 +181,20 @@
                     @endforeach
                 </div>
                 
-                <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
-
-                <div class="carousel-indicators position-relative mt-5">
-                    @foreach($chunks as $index => $chunk)
-                    <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }} bg-primary" style="width: 12px; height: 12px; border-radius: 50%"></button>
-                    @endforeach
+                <!-- Custom Controls -->
+                <div class="flex justify-center gap-4 mt-12">
+                    <button class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white/5 transition-all" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+                    <button class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white/5 transition-all" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+                        <i class="fas fa-chevron-right text-sm"></i>
+                    </button>
                 </div>
             </div>
 
-            <div class="text-center mt-5">
-                <p class="text-secondary mb-4">Have you serviced your bike with us recently?</p>
-                <button class="btn-premium btn-premium-primary px-5 py-3" data-bs-toggle="modal" data-bs-target="#leaveReviewModal">
-                    LEAVE A REVIEW <i class="fas fa-pen-nib ms-2"></i>
+            <div class="text-center mt-16">
+                <button class="px-8 py-4 bg-white/5 text-white font-bold rounded-2xl border border-white/10 hover:bg-white/10 transition-all" data-bs-toggle="modal" data-bs-target="#leaveReviewModal">
+                    Share Your Experience <i class="fas fa-pen-nib ml-2 text-blue-400"></i>
                 </button>
             </div>
         </div>
@@ -334,23 +205,25 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold">Share Your Experience</h5>
+                    <h5 class="modal-title font-bold">Write a Review</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-8">
                     <form action="{{ route('reviews.store') }}" method="POST">
                         @csrf
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-muted small">YOUR FULL NAME</label>
-                            <input type="text" name="name" class="form-control bg-light border-0 rounded-4 p-3" placeholder="e.g. Rahul Sharma" required>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="block text-slate-400 text-xs font-bold uppercase mb-2">Your Name</label>
+                                <input type="text" name="name" class="form-control rounded-xl p-3" placeholder="John Doe" required>
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 text-xs font-bold uppercase mb-2">Vehicle Model</label>
+                                <input type="text" name="bike" class="form-control rounded-xl p-3" placeholder="MT-15" required>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-muted small">BIKE MODEL</label>
-                            <input type="text" name="bike" class="form-control bg-light border-0 rounded-4 p-3" placeholder="e.g. Royal Enfield Hunter 350" required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-muted small">YOUR RATING</label>
-                            <div class="rating-select mt-2">
+                        <div class="mb-6">
+                            <label class="block text-slate-400 text-xs font-bold uppercase mb-2">Rating</label>
+                            <div class="rating-select">
                                 <input type="radio" id="star5" name="stars" value="5" required /><label for="star5"></label>
                                 <input type="radio" id="star4" name="stars" value="4" /><label for="star4"></label>
                                 <input type="radio" id="star3" name="stars" value="3" /><label for="star3"></label>
@@ -358,31 +231,16 @@
                                 <input type="radio" id="star1" name="stars" value="1" /><label for="star1"></label>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-muted small">REVIEW COMMENT</label>
-                            <textarea name="text" class="form-control bg-light border-0 rounded-4 p-3" rows="4" placeholder="Tell us what you liked about our service..." required></textarea>
+                        <div class="mb-8">
+                            <label class="block text-slate-400 text-xs font-bold uppercase mb-2">Review</label>
+                            <textarea name="text" class="form-control rounded-xl p-3" rows="4" placeholder="How was your service experience?" required></textarea>
                         </div>
-                        <button type="submit" class="btn-premium btn-premium-primary w-100 py-3 rounded-4 fs-5">
-                            SUBMIT REVIEW <i class="fas fa-paper-plane ms-2"></i>
+                        <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20">
+                            Submit Review
                         </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    @if(session('success'))
-    <div class="position-fixed bottom-0 end-0 p-4" style="z-index: 2000;">
-        <div class="alert alert-success border-0 shadow-lg rounded-4 p-4 animate__animated animate__fadeInUp d-flex align-items-center mb-0">
-            <div class="bg-success text-white rounded-circle p-2 me-3">
-                <i class="fas fa-check"></i>
-            </div>
-            <div>
-                <h6 class="fw-bold mb-0">Success!</h6>
-                <small>{{ session('success') }}</small>
-            </div>
-            <button type="button" class="btn-close ms-4" data-bs-dismiss="alert"></button>
-        </div>
-    </div>
-    @endif
 @endsection
