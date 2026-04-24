@@ -22,63 +22,100 @@
         border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
-    /* Map Styles */
+    /* Polished Map & Workshop UI */
     #map {
-        height: 400px;
+        height: 450px;
         width: 100%;
-        border-radius: 20px;
+        border-radius: 24px;
         z-index: 1;
-        border: 2px solid #e2e8f0;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    }
+
+    .workshop-selection-container {
+        background: #ffffff;
+        border-radius: 28px;
+        padding: 25px;
+        border: 1px solid #f1f5f9;
+        box-shadow: var(--shadow-sm);
+    }
+
+    #workshop-list {
+        max-height: 450px;
+        overflow-y: auto;
+        padding-right: 10px;
+        scrollbar-width: thin;
     }
 
     .workshop-card {
-        padding: 15px;
-        border: 2px solid #e2e8f0;
-        border-radius: 16px;
-        margin-bottom: 10px;
+        padding: 18px;
+        border: 2px solid #f1f5f9;
+        border-radius: 20px;
+        margin-bottom: 12px;
         cursor: pointer;
-        transition: var(--transition);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         background: #f8fafc;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .workshop-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: var(--primary);
+        opacity: 0;
+        transition: var(--transition);
     }
 
     .workshop-card:hover {
         border-color: var(--primary-light);
+        transform: translateX(5px);
         background: white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.03);
     }
 
     .workshop-card.active {
         border-color: var(--primary);
-        background: #f0f7ff;
-        box-shadow: 0 4px 12px rgba(15, 59, 111, 0.1);
+        background: #ffffff;
+        box-shadow: 0 15px 30px rgba(15, 59, 111, 0.08);
+    }
+
+    .workshop-card.active::before {
+        opacity: 1;
     }
 
     .workshop-name {
-        font-weight: 700;
+        font-weight: 800;
         color: var(--text-dark);
-        margin-bottom: 4px;
-        display: block;
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+        letter-spacing: -0.01em;
     }
 
     .workshop-address {
         font-size: 0.8rem;
-        color: var(--text-muted);
-        line-height: 1.4;
+        color: #64748b;
+        line-height: 1.5;
+        margin-bottom: 0;
     }
 
-    .workshop-badge {
+    .workshop-distance-badge {
         font-size: 0.7rem;
-        padding: 4px 10px;
-        border-radius: 20px;
-        background: #e2e8f0;
-        color: var(--text-dark);
-        font-weight: 700;
-        margin-top: 8px;
-        display: inline-block;
-    }
-
-    .workshop-card.active .workshop-badge {
+        font-weight: 800;
+        padding: 5px 12px;
+        border-radius: 100px;
         background: var(--primary);
         color: white;
+        box-shadow: 0 4px 10px rgba(15, 59, 111, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        #map { height: 300px; margin-top: 20px; }
+        .workshop-selection-container { padding: 15px; }
     }
 
     #workshop-selection-area {
@@ -481,27 +518,29 @@
                                     <div id="workshop-selection-area" class="animate-fade-in">
                                         <label class="form-label booking-label"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 3. SELECT WORKSHOP PARTNER</label>
                                         
-                                        <div class="row g-3 mb-4">
-                                            <div class="col-md-12">
-                                                <label class="form-label">PICKUP ADDRESS & LOCATION</label>
-                                                <div class="input-group">
-                                                    <input type="text" name="pickup_address" id="pickup-address" class="form-control booking-input" placeholder="Enter your full address or use current location..." required>
-                                                    <button class="btn btn-outline-primary" type="button" id="detect-location-btn" style="border-radius: 0 16px 16px 0; border-color: #e2e8f0;">
-                                                        <i class="fas fa-location-crosshairs me-2"></i> Detect
-                                                    </button>
+                                        <div class="workshop-selection-container">
+                                            <div class="row g-3 mb-4">
+                                                <div class="col-md-12">
+                                                    <label class="form-label text-dark fw-bold" style="font-size: 0.75rem;">YOUR PICKUP LOCATION</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text bg-white border-end-0" style="border-radius: 16px 0 0 16px; border-color: #e2e8f0;"><i class="fas fa-search text-muted"></i></span>
+                                                        <input type="text" name="pickup_address" id="pickup-address" class="form-control booking-input border-start-0" placeholder="Enter your full address or use current location..." style="border-radius: 0; padding-left: 0;" required>
+                                                        <button class="btn btn-primary px-4" type="button" id="detect-location-btn" style="border-radius: 0 16px 16px 0;">
+                                                            <i class="fas fa-location-crosshairs me-2"></i> DETECT
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <small class="text-muted mt-2 d-block"><i class="fas fa-info-circle me-1"></i> We'll auto-detect the nearest workshop for you.</small>
                                             </div>
-                                        </div>
 
-                                        <div class="row g-3">
-                                            <div class="col-md-5">
-                                                <div id="workshop-list" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                                                    <!-- Workshop cards will be injected here -->
+                                            <div class="row g-4">
+                                                <div class="col-lg-5 order-2 order-lg-1">
+                                                    <div id="workshop-list">
+                                                        <!-- Workshop cards will be injected here -->
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div id="map"></div>
+                                                <div class="col-lg-7 order-1 order-lg-2">
+                                                    <div id="map"></div>
+                                                </div>
                                             </div>
                                         </div>
                                         <input type="hidden" name="workshop_id" id="selected-workshop-id" required>
@@ -1097,21 +1136,26 @@
 
             workshops.forEach(ws => {
                 // Add Marker
-                const marker = L.marker([ws.lat, ws.lng]).addTo(map);
-                marker.bindPopup(`<b>${ws.name}</b><br>${ws.address}`);
+                const marker = L.marker([ws.lat, ws.lng], { icon: bikeIcon }).addTo(map);
+                marker.bindPopup(`
+                    <div style="text-align: center; padding: 5px;">
+                        <b style="font-size: 1rem;">${ws.name}</b><br>
+                        <span style="font-size: 0.8rem; color: #64748b;">${ws.address}</span>
+                    </div>
+                `);
                 markers[ws.id] = marker;
 
                 // Add Card
                 const cardHtml = `
                     <div class="workshop-card animate-fade-in" data-id="${ws.id}" data-lat="${ws.lat}" data-lng="${ws.lng}">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <span class="workshop-name">${ws.name}</span>
-                                <p class="workshop-address">${ws.address}</p>
-                            </div>
-                            ${ws.distance ? `<span class="badge bg-primary rounded-pill">${ws.distance} km</span>` : ''}
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="workshop-name">${ws.name}</span>
+                            ${ws.distance ? `<span class="workshop-distance-badge">${ws.distance} km</span>` : ''}
                         </div>
-                        <span class="workshop-badge"><i class="fas fa-check-circle me-1"></i> Official Partner</span>
+                        <p class="workshop-address"><i class="fas fa-map-pin me-1"></i> ${ws.address}</p>
+                        <div class="mt-2 text-primary fw-bold" style="font-size: 0.7rem;">
+                            <i class="fas fa-clock me-1"></i> OPEN NOW • 9 AM - 8 PM
+                        </div>
                     </div>
                 `;
                 $list.append(cardHtml);
@@ -1144,7 +1188,10 @@
 
         function showWorkshopStep() {
             $('#workshop-selection-area').show();
-            setTimeout(initMap, 100); // Give time for display:block
+            setTimeout(() => {
+                initMap();
+                if (map) map.invalidateSize(); // Fix overflow/rendering issues
+            }, 300);
             
             $('html, body').animate({
                 scrollTop: $('#workshop-selection-area').offset().top - 100
