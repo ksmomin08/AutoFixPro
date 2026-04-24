@@ -108,7 +108,7 @@ class PaymentController extends Controller
                     'status' => 'pending' // Move from 'pending_payment' to 'pending'
                 ]);
             }
-            return view('payment.success', compact('appointment'));
+            return redirect()->route('appointment.location', $appointment->id);
         } else {
             return redirect()->route('appointment')->with('error', 'Payment failed: ' . $error);
         }

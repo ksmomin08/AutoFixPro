@@ -46,6 +46,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/payment/checkout-full/{id}', [PaymentController::class, 'checkoutFull'])->name('payment.checkout-full');
     Route::post('/payment/verify-full', [PaymentController::class, 'verifyFull'])->name('payment.verify-full');
     
+    // Post-Payment Location Selection
+    Route::get('/appointment/{id}/location', [AppointmentController::class, 'location'])->name('appointment.location');
+    Route::post('/appointment/{id}/location', [AppointmentController::class, 'updateLocation'])->name('appointment.location.store');
+    
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
