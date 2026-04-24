@@ -10,12 +10,92 @@
         padding: 50px 0;
     }
 
+    /* Leaflet CSS */
+    @import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+
     .booking-card {
         background: white;
         border-radius: 32px;
         box-shadow: var(--shadow-lg);
         overflow: hidden;
         border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    /* Map Styles */
+    #map {
+        height: 400px;
+        width: 100%;
+        border-radius: 20px;
+        z-index: 1;
+        border: 2px solid #e2e8f0;
+    }
+
+    .workshop-card {
+        padding: 15px;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        background: #f8fafc;
+    }
+
+    .workshop-card:hover {
+        border-color: var(--primary-light);
+        background: white;
+    }
+
+    .workshop-card.active {
+        border-color: var(--primary);
+        background: #f0f7ff;
+        box-shadow: 0 4px 12px rgba(15, 59, 111, 0.1);
+    }
+
+    .workshop-name {
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .workshop-address {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        line-height: 1.4;
+    }
+
+    .workshop-badge {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: #e2e8f0;
+        color: var(--text-dark);
+        font-weight: 700;
+        margin-top: 8px;
+        display: inline-block;
+    }
+
+    .workshop-card.active .workshop-badge {
+        background: var(--primary);
+        color: white;
+    }
+
+    #workshop-selection-area {
+        display: none;
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px dashed #e2e8f0;
+    }
+
+    /* Leaflet Overrides */
+    .leaflet-popup-content-wrapper {
+        border-radius: 12px;
+        padding: 5px;
+    }
+    .leaflet-popup-content b {
+        color: var(--primary);
+        display: block;
+        margin-bottom: 5px;
     }
 
     .booking-sidebar {
@@ -273,8 +353,15 @@
                                     <small class="opacity-50">Tell us what you ride</small>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center mb-4">
                                 <div class="step-indicator">3</div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">Select Workshop</h6>
+                                    <small class="opacity-50">Find a partner near you</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="step-indicator">4</div>
                                 <div>
                                     <h6 class="fw-bold mb-0">Date & Time</h6>
                                     <small class="opacity-50">Pick your preferred slot</small>
@@ -390,8 +477,25 @@
                                     </div>
 
 
-                                    <div class="mb-4">
-                                        <label class="form-label booking-label"><i class="fas fa-calendar-alt me-2 text-primary"></i> Appointment Date</label>
+                                    <div id="workshop-selection-area" class="animate-fade-in">
+                                        <label class="form-label booking-label"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 3. SELECT WORKSHOP PARTNER</label>
+                                        
+                                        <div class="row g-3">
+                                            <div class="col-md-5">
+                                                <div id="workshop-list" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
+                                                    <!-- Workshop cards will be injected here -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div id="map"></div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="workshop_id" id="selected-workshop-id" required>
+                                        <input type="hidden" name="workshop_name" id="selected-workshop-name" required>
+                                    </div>
+
+                                    <div class="mb-4 mt-5" id="date-selection-area" style="display: none;">
+                                        <label class="form-label booking-label"><i class="fas fa-calendar-alt me-2 text-primary"></i> 4. APPOINTMENT DATE</label>
                                         <input type="date" name="date" class="form-control booking-input" required min="{{ date('Y-m-d') }}">
                                     </div>
 
@@ -417,6 +521,7 @@
 @endsection
 
 @section('scripts')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     const bikeData = {
         'Honda': [
@@ -870,6 +975,93 @@
 
         $('#manual-vehicle').on('input', function() {
             $selectedVehicleInput.val($(this).val());
+            if ($(this).val().length > 3) {
+                showWorkshopStep();
+            }
+        });
+
+        // WORKSHOP & MAP LOGIC
+        const workshops = [
+            { id: 1, name: 'AutoFix Mumbai Central', address: 'Plot 45, Worli Sea Face, Mumbai, MH', lat: 18.9986, lng: 72.8152, city: 'Mumbai' },
+            { id: 2, name: 'AutoFix Delhi Hub', address: 'Sector 18, Noida, Delhi NCR', lat: 28.5708, lng: 77.3259, city: 'Delhi' },
+            { id: 3, name: 'AutoFix Bangalore Prime', address: '100 Feet Rd, Indiranagar, Bangalore, KA', lat: 12.9716, lng: 77.6412, city: 'Bangalore' },
+            { id: 4, name: 'AutoFix Pune Elite', address: 'Kothrud Main Road, Pune, MH', lat: 18.5074, lng: 73.8077, city: 'Pune' },
+            { id: 5, name: 'AutoFix Hyderabad Tech', address: 'HITEC City, Hyderabad, TS', lat: 17.4483, lng: 78.3915, city: 'Hyderabad' }
+        ];
+
+        let map;
+        let markers = [];
+
+        function initMap() {
+            if (map) return;
+            
+            map = L.map('map').setView([20.5937, 78.9629], 5); // Center of India
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            renderWorkshopList();
+        }
+
+        function renderWorkshopList() {
+            const $list = $('#workshop-list');
+            $list.empty();
+
+            workshops.forEach(ws => {
+                // Add Marker
+                const marker = L.marker([ws.lat, ws.lng]).addTo(map);
+                marker.bindPopup(`<b>${ws.name}</b><br>${ws.address}`);
+                markers[ws.id] = marker;
+
+                // Add Card
+                const cardHtml = `
+                    <div class="workshop-card animate-fade-in" data-id="${ws.id}" data-lat="${ws.lat}" data-lng="${ws.lng}">
+                        <span class="workshop-name">${ws.name}</span>
+                        <p class="workshop-address">${ws.address}</p>
+                        <span class="workshop-badge"><i class="fas fa-check-circle me-1"></i> Official Partner</span>
+                    </div>
+                `;
+                $list.append(cardHtml);
+            });
+
+            // Card Click Event
+            $('.workshop-card').on('click', function() {
+                const id = $(this).data('id');
+                const lat = $(this).data('lat');
+                const lng = $(this).data('lng');
+                const name = $(this).find('.workshop-name').text();
+
+                $('.workshop-card').removeClass('active');
+                $(this).addClass('active');
+
+                $('#selected-workshop-id').val(id);
+                $('#selected-workshop-name').val(name);
+                
+                // Zoom map to workshop
+                map.flyTo([lat, lng], 14);
+                markers[id].openPopup();
+
+                // Show Date Selection
+                $('#date-selection-area').show();
+                $('html, body').animate({
+                    scrollTop: $('#date-selection-area').offset().top - 100
+                }, 500);
+            });
+        }
+
+        function showWorkshopStep() {
+            $('#workshop-selection-area').show();
+            setTimeout(initMap, 100); // Give time for display:block
+            
+            $('html, body').animate({
+                scrollTop: $('#workshop-selection-area').offset().top - 100
+            }, 500);
+        }
+
+        // Trigger workshop step after model selection
+        $(document).on('click', '.model-card', function() {
+            showWorkshopStep();
         });
     });
 </script>

@@ -20,6 +20,8 @@ class AppointmentController extends Controller
             'vehicle' => 'required|string|max:255',
             'date' => 'required|date|after_or_equal:today',
             'details' => 'nullable|string',
+            'workshop_id' => 'required|string',
+            'workshop_name' => 'required|string',
         ]);
 
         $user = Auth::user();
@@ -32,6 +34,8 @@ class AppointmentController extends Controller
             'vehicle' => $validated['vehicle'],
             'date' => $validated['date'],
             'service' => $validated['service'],
+            'workshop_id' => $validated['workshop_id'],
+            'workshop_name' => $validated['workshop_name'],
             'details' => $validated['details'] ?? '',
             'status' => 'pending_payment',
         ]);
