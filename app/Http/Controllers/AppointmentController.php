@@ -22,6 +22,9 @@ class AppointmentController extends Controller
             'details' => 'nullable|string',
             'workshop_id' => 'required|string',
             'workshop_name' => 'required|string',
+            'pickup_address' => 'required|string',
+            'user_lat' => 'nullable|numeric',
+            'user_lng' => 'nullable|numeric',
         ]);
 
         $user = Auth::user();
@@ -36,6 +39,9 @@ class AppointmentController extends Controller
             'service' => $validated['service'],
             'workshop_id' => $validated['workshop_id'],
             'workshop_name' => $validated['workshop_name'],
+            'pickup_address' => $validated['pickup_address'],
+            'user_lat' => $validated['user_lat'],
+            'user_lng' => $validated['user_lng'],
             'details' => $validated['details'] ?? '',
             'status' => 'pending_payment',
         ]);

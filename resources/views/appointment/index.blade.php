@@ -481,6 +481,19 @@
                                     <div id="workshop-selection-area" class="animate-fade-in">
                                         <label class="form-label booking-label"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 3. SELECT WORKSHOP PARTNER</label>
                                         
+                                        <div class="row g-3 mb-4">
+                                            <div class="col-md-12">
+                                                <label class="form-label">PICKUP ADDRESS & LOCATION</label>
+                                                <div class="input-group">
+                                                    <input type="text" name="pickup_address" id="pickup-address" class="form-control booking-input" placeholder="Enter your full address or use current location..." required>
+                                                    <button class="btn btn-outline-primary" type="button" id="detect-location-btn" style="border-radius: 0 16px 16px 0; border-color: #e2e8f0;">
+                                                        <i class="fas fa-location-crosshairs me-2"></i> Detect
+                                                    </button>
+                                                </div>
+                                                <small class="text-muted mt-2 d-block"><i class="fas fa-info-circle me-1"></i> We'll auto-detect the nearest workshop for you.</small>
+                                            </div>
+                                        </div>
+
                                         <div class="row g-3">
                                             <div class="col-md-5">
                                                 <div id="workshop-list" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
@@ -493,6 +506,8 @@
                                         </div>
                                         <input type="hidden" name="workshop_id" id="selected-workshop-id" required>
                                         <input type="hidden" name="workshop_name" id="selected-workshop-name" required>
+                                        <input type="hidden" name="user_lat" id="user-lat">
+                                        <input type="hidden" name="user_lng" id="user-lng">
                                     </div>
 
                                     <div class="mb-4 mt-5" id="date-selection-area" style="display: none;">
@@ -983,26 +998,97 @@
 
         // WORKSHOP & MAP LOGIC
         const workshops = [
-            { id: 1, name: 'AutoFix Mumbai Central', address: 'Plot 45, Worli Sea Face, Mumbai, MH', lat: 18.9986, lng: 72.8152, city: 'Mumbai' },
-            { id: 2, name: 'AutoFix Delhi Hub', address: 'Sector 18, Noida, Delhi NCR', lat: 28.5708, lng: 77.3259, city: 'Delhi' },
-            { id: 3, name: 'AutoFix Bangalore Prime', address: '100 Feet Rd, Indiranagar, Bangalore, KA', lat: 12.9716, lng: 77.6412, city: 'Bangalore' },
-            { id: 4, name: 'AutoFix Pune Elite', address: 'Kothrud Main Road, Pune, MH', lat: 18.5074, lng: 73.8077, city: 'Pune' },
-            { id: 5, name: 'AutoFix Hyderabad Tech', address: 'HITEC City, Hyderabad, TS', lat: 17.4483, lng: 78.3915, city: 'Hyderabad' }
+            { id: 1, name: 'AutoFix SG Highway', address: 'Times Square Grand, SG Highway, Ahmedabad', lat: 23.0538, lng: 72.5024, city: 'Ahmedabad' },
+            { id: 2, name: 'AutoFix Satellite', address: 'Shivranjani Cross Roads, Satellite, Ahmedabad', lat: 23.0298, lng: 72.5273, city: 'Ahmedabad' },
+            { id: 3, name: 'AutoFix Maninagar', address: 'Jawahar Chowk, Maninagar, Ahmedabad', lat: 22.9961, lng: 72.6015, city: 'Ahmedabad' },
+            { id: 4, name: 'AutoFix C.G. Road', address: 'White House, C.G. Road, Ahmedabad', lat: 23.0333, lng: 72.5634, city: 'Ahmedabad' },
+            { id: 5, name: 'AutoFix Bopal Hub', address: 'Bopal Cross Roads, Ahmedabad', lat: 23.0338, lng: 72.4632, city: 'Ahmedabad' },
+            { id: 6, name: 'AutoFix Mumbai Central', address: 'Plot 45, Worli Sea Face, Mumbai, MH', lat: 18.9986, lng: 72.8152, city: 'Mumbai' },
+            { id: 7, name: 'AutoFix Delhi Hub', address: 'Sector 18, Noida, Delhi NCR', lat: 28.5708, lng: 77.3259, city: 'Delhi' }
         ];
 
         let map;
         let markers = [];
+        let userMarker;
 
         function initMap() {
             if (map) return;
             
-            map = L.map('map').setView([20.5937, 78.9629], 5); // Center of India
+            map = L.map('map').setView([23.0225, 72.5714], 12); // Center of Ahmedabad
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
             renderWorkshopList();
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function findNearestWorkshop(userLat, userLng) {
+            let nearest = null;
+            let minDistance = Infinity;
+
+            workshops.forEach(ws => {
+                const dist = calculateDistance(userLat, userLng, ws.lat, ws.lng);
+                ws.distance = dist.toFixed(1);
+                if (dist < minDistance) {
+                    minDistance = dist;
+                    nearest = ws;
+                }
+            });
+
+            return nearest;
+        }
+
+        $('#detect-location-btn').on('click', function() {
+            if ("geolocation" in navigator) {
+                $(this).html('<i class="fas fa-spinner fa-spin me-2"></i> Detecting...');
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    $('#user-lat').val(lat);
+                    $('#user-lng').val(lng);
+                    $('#pickup-address').val('My Current Location Detected');
+                    $(this).html('<i class="fas fa-check me-2"></i> Detected');
+
+                    updateMapWithUserLocation(lat, lng);
+                }, error => {
+                    alert("Error detecting location. Please enter address manually.");
+                    $(this).html('<i class="fas fa-location-crosshairs me-2"></i> Detect');
+                });
+            }
+        });
+
+        function updateMapWithUserLocation(lat, lng) {
+            if (userMarker) map.removeLayer(userMarker);
+            
+            userMarker = L.circleMarker([lat, lng], {
+                color: '#3b82f6',
+                fillColor: '#3b82f6',
+                fillOpacity: 0.8,
+                radius: 10
+            }).addTo(map).bindPopup("Your Location").openPopup();
+
+            const nearest = findNearestWorkshop(lat, lng);
+            if (nearest) {
+                // Highlight the nearest workshop
+                $(`.workshop-card[data-id="${nearest.id}"]`).click();
+                map.fitBounds([
+                    [lat, lng],
+                    [nearest.lat, nearest.lng]
+                ], { padding: [50, 50] });
+            }
         }
 
         function renderWorkshopList() {
@@ -1018,8 +1104,13 @@
                 // Add Card
                 const cardHtml = `
                     <div class="workshop-card animate-fade-in" data-id="${ws.id}" data-lat="${ws.lat}" data-lng="${ws.lng}">
-                        <span class="workshop-name">${ws.name}</span>
-                        <p class="workshop-address">${ws.address}</p>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <span class="workshop-name">${ws.name}</span>
+                                <p class="workshop-address">${ws.address}</p>
+                            </div>
+                            ${ws.distance ? `<span class="badge bg-primary rounded-pill">${ws.distance} km</span>` : ''}
+                        </div>
                         <span class="workshop-badge"><i class="fas fa-check-circle me-1"></i> Official Partner</span>
                     </div>
                 `;
