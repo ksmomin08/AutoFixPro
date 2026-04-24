@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Book Appointment | AutoFixPro')
+<!-- Deployment Verify: Map Feature v1.1 -->
 
 @section('styles')
 <style>
