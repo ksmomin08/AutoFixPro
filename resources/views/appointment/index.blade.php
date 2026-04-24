@@ -3,6 +3,8 @@
 @section('title', 'Book Appointment | AutoFixPro')
 
 @section('styles')
+{{-- Leaflet CSS Link --}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
     .booking-container {
         min-height: calc(100vh - 85px);
@@ -244,6 +246,118 @@
         background: #94a3b8;
     }
 
+    /* ===== MAP & LOCATION STYLES ===== */
+    .address-bar {
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        margin-bottom: 8px;
+    }
+
+    .address-bar:focus-within {
+        border-color: #0f3b6f;
+        box-shadow: 0 0 0 4px rgba(15, 59, 111, 0.08);
+        background: white;
+    }
+
+    .address-bar .icon {
+        padding: 0 16px;
+        color: #94a3b8;
+        font-size: 1rem;
+    }
+
+    .address-bar input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 16px 0;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #0f172a;
+        outline: none;
+    }
+
+    .detect-btn {
+        background: #0f3b6f;
+        color: white;
+        border: none;
+        padding: 16px 28px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .map-wrapper {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid #e2e8f0;
+        background: #e2e8f0;
+        margin-top: 15px;
+    }
+
+    .map-wrapper #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .workshop-list-wrapper {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 8px;
+        margin-top: 15px;
+    }
+
+    .ws-card {
+        padding: 14px;
+        border: 2px solid #f1f5f9;
+        border-radius: 14px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        background: #fafbfc;
+        position: relative;
+    }
+
+    .ws-card.active {
+        border-color: #0f3b6f;
+        background: white;
+        box-shadow: 0 8px 20px rgba(15, 59, 111, 0.08);
+    }
+
+    .ws-name {
+        font-weight: 800;
+        font-size: 0.85rem;
+        color: #0f172a;
+    }
+
+    .ws-address {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin: 0;
+    }
+
+    .ws-badge {
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-radius: 100px;
+        background: #0f3b6f;
+        color: white;
+    }
+
 </style>
 @endsection
 
@@ -393,9 +507,43 @@
                                         <textarea name="details" class="form-control booking-input" rows="4" placeholder="Tell us more about the issues..."></textarea>
                                     </div>
 
+                                    <hr class="my-5" style="border-top: 1px dashed #cbd5e1;">
+
+                                    <div class="mb-5">
+                                        <label class="form-label booking-label"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 4. PICKUP ADDRESS</label>
+                                        <div class="address-bar">
+                                            <div class="icon"><i class="fas fa-search"></i></div>
+                                            <input type="text" name="pickup_address" id="pickup-address" placeholder="Flat No, Society, Landmark, Ahmedabad..." required>
+                                            <button class="detect-btn" type="button" id="detect-location-btn">
+                                                <i class="fas fa-location-crosshairs me-1"></i> DETECT
+                                            </button>
+                                        </div>
+                                        <small class="text-muted d-block ps-1"><i class="fas fa-info-circle me-1"></i> We'll auto-detect the nearest workshop for you.</small>
+                                    </div>
+
+                                    <div class="row g-4">
+                                        <div class="col-lg-5">
+                                            <label class="form-label booking-label"><i class="fas fa-tools me-2 text-primary"></i> 5. SELECT WORKSHOP</label>
+                                            <div class="workshop-list-wrapper" id="workshop-list">
+                                                <!-- Cards injected by JS -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <label class="form-label booking-label"><i class="fas fa-globe-asia me-2 text-primary"></i> WORKSHOP MAP</label>
+                                            <div class="map-wrapper">
+                                                <div id="map"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="workshop_id" id="selected-workshop-id" required>
+                                    <input type="hidden" name="workshop_name" id="selected-workshop-name" required>
+                                    <input type="hidden" name="user_lat" id="user-lat">
+                                    <input type="hidden" name="user_lng" id="user-lng">
+
                                     <div class="col-md-12 mt-5">
                                         <button type="submit" class="btn-premium btn-premium-primary w-100 py-3 fs-5">
-                                            CONFIRM APPOINTMENT <i class="fas fa-arrow-right ms-2"></i>
+                                            CONFIRM APPOINTMENT & PROCEED <i class="fas fa-arrow-right ms-2"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -568,7 +716,7 @@
             { name: 'RC 390 (2014–Present)',               photo: '{{ asset("images/bikes/ktm/img7.png")  }}' },
             { name: '390 Adventure (2020–Present)',        photo: '{{ asset("images/bikes/ktm/img8.png")  }}' },
             { name: '250 Adventure (2022–Present)',        photo: '{{ asset("images/bikes/ktm/img9.png")  }}' },
-            { name: '390 Adventure X (2023–Present)',      photo: '{{ asset("images/bikes/ktm/img10.png") }}' }
+            { name: '390 Adventure X (2023–Present)',      photo: '{{ asset("images/bikes/ktm/img10.png") }}'}
         ],
         'Suzuki': [
             { name: 'Hayate (2012–2019)', photo: '' },
@@ -668,5 +816,109 @@
             $selectedVehicleInput.val($(this).val());
         });
     });
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+$(document).ready(function() {
+    const workshops = [
+        { id: 1, name: 'AutoFix SG Highway', address: 'Times Square Grand, SG Highway, Ahmedabad', lat: 23.0538, lng: 72.5024 },
+        { id: 2, name: 'AutoFix Satellite', address: 'Shivranjani Cross Roads, Satellite, Ahmedabad', lat: 23.0298, lng: 72.5273 },
+        { id: 3, name: 'AutoFix Maninagar', address: 'Jawahar Chowk, Maninagar, Ahmedabad', lat: 22.9961, lng: 72.6015 },
+        { id: 4, name: 'AutoFix C.G. Road', address: 'White House, C.G. Road, Ahmedabad', lat: 23.0333, lng: 72.5634 },
+        { id: 5, name: 'AutoFix Bopal Hub', address: 'Bopal Cross Roads, Ahmedabad', lat: 23.0338, lng: 72.4632 },
+        { id: 6, name: 'AutoFix Mumbai Central', address: 'Plot 45, Worli Sea Face, Mumbai', lat: 18.9986, lng: 72.8152 },
+        { id: 7, name: 'AutoFix Delhi Hub', address: 'Sector 18, Noida, Delhi NCR', lat: 28.5708, lng: 77.3259 }
+    ];
+
+    let map, markers = {}, userMarker;
+
+    const bikeIcon = L.divIcon({
+        html: '<div style="background:#0f3b6f;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,0.25);border:3px solid white;"><i class="fas fa-motorcycle" style="color:white;font-size:0.8rem;"></i></div>',
+        className: '',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -16]
+    });
+
+    function initMap() {
+        map = L.map('map', { scrollWheelZoom: false }).setView([23.0225, 72.5714], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+        renderWorkshops();
+        setTimeout(function() { map.invalidateSize(); }, 300);
+    }
+
+    function haversine(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    function renderWorkshops() {
+        const $list = $('#workshop-list');
+        $list.empty();
+        Object.values(markers).forEach(m => map.removeLayer(m));
+        markers = {};
+
+        workshops.forEach(ws => {
+            const marker = L.marker([ws.lat, ws.lng], { icon: bikeIcon }).addTo(map);
+            marker.bindPopup('<b>' + ws.name + '</b><br><small>' + ws.address + '</small>');
+            markers[ws.id] = marker;
+
+            $list.append(`
+                <div class="ws-card" data-id="${ws.id}" data-lat="${ws.lat}" data-lng="${ws.lng}" data-name="${ws.name}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="ws-name">${ws.name}</div>
+                            <p class="ws-address"><i class="fas fa-map-pin me-1" style="font-size:0.7rem;"></i> ${ws.address}</p>
+                        </div>
+                        ${ws.distance !== undefined ? `<span class="ws-badge">${ws.distance} km</span>` : ''}
+                    </div>
+                </div>
+            `);
+        });
+
+        $('.ws-card').on('click', function() {
+            const id = $(this).data('id');
+            const lat = $(this).data('lat');
+            const lng = $(this).data('lng');
+            const name = $(this).data('name');
+            $('.ws-card').removeClass('active');
+            $(this).addClass('active');
+            $('#selected-workshop-id').val(id);
+            $('#selected-workshop-name').val(name);
+            map.flyTo([lat, lng], 15);
+            markers[id].openPopup();
+        });
+    }
+
+    $('#detect-location-btn').on('click', function() {
+        if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
+        const btn = $(this);
+        btn.html('<i class="fas fa-spinner fa-spin me-1"></i> DETECTING...');
+        navigator.geolocation.getCurrentPosition(pos => {
+            const lat = pos.coords.latitude, lng = pos.coords.longitude;
+            $('#user-lat').val(lat);
+            $('#user-lng').val(lng);
+            $('#pickup-address').val('📍 My Current Location');
+            btn.html('<i class="fas fa-check me-1"></i> DETECTED');
+            if (userMarker) map.removeLayer(userMarker);
+            userMarker = L.circleMarker([lat, lng], { color: '#3b82f6', fillColor: '#3b82f6', fillOpacity: 0.9, radius: 10, weight: 3 }).addTo(map).bindPopup('<b>You are here</b>').openPopup();
+            workshops.forEach(ws => { ws.distance = haversine(lat, lng, ws.lat, ws.lng).toFixed(1); });
+            workshops.sort((a, b) => a.distance - b.distance);
+            renderWorkshops();
+            $('.ws-card').first().click();
+            map.fitBounds([[lat, lng], [workshops[0].lat, workshops[0].lng]], { padding: [60, 60] });
+        }, () => {
+            alert('Location access denied.');
+            btn.html('<i class="fas fa-location-crosshairs me-1"></i> DETECT');
+        });
+    });
+
+    initMap();
+});
 </script>
 @endsection

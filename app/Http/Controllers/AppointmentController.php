@@ -20,6 +20,11 @@ class AppointmentController extends Controller
             'vehicle' => 'required|string|max:255',
             'date' => 'required|date|after_or_equal:today',
             'details' => 'nullable|string',
+            'workshop_id' => 'required|string',
+            'workshop_name' => 'required|string',
+            'pickup_address' => 'required|string',
+            'user_lat' => 'nullable|numeric',
+            'user_lng' => 'nullable|numeric',
         ]);
 
         $user = Auth::user();
@@ -32,34 +37,16 @@ class AppointmentController extends Controller
             'vehicle' => $validated['vehicle'],
             'date' => $validated['date'],
             'service' => $validated['service'],
+            'workshop_id' => $validated['workshop_id'],
+            'workshop_name' => $validated['workshop_name'],
+            'pickup_address' => $validated['pickup_address'],
+            'user_lat' => $validated['user_lat'],
+            'user_lng' => $validated['user_lng'],
             'details' => $validated['details'] ?? '',
             'status' => 'pending_payment',
         ]);
 
         return redirect()->route('payment.checkout', $appointment->id);
-    }
-
-    public function location($id)
-    {
-        $appointment = Appointment::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-        return view('appointment.location', compact('appointment'));
-    }
-
-    public function updateLocation(Request $request, $id)
-    {
-        $appointment = Appointment::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-        
-        $validated = $request->validate([
-            'workshop_id' => 'required|string',
-            'workshop_name' => 'required|string',
-            'pickup_address' => 'required|string',
-            'user_lat' => 'nullable|numeric',
-            'user_lng' => 'nullable|numeric',
-        ]);
-
-        $appointment->update($validated);
-
-        return view('payment.success', compact('appointment'));
     }
 
     public function cancel($id)

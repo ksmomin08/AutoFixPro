@@ -11,22 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Icons & CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            corePlugins: {
-                preflight: false,
-            },
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0f3b6f',
-                        accent: '#ffb800',
-                    }
-                }
-            }
-        }
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -150,26 +134,12 @@
         .admin:hover{
             color: #25d366
         }
-
-        /* Navbar Visibility Fix for Tailwind Conflict */
-        .navbar-collapse.collapse:not(.show) {
-            display: none !important;
-        }
-        @media (min-width: 768px) {
-            .navbar-collapse.collapse {
-                display: flex !important;
-            }
-        }
-        .navbar-toggler {
-            border: 1px solid rgba(0,0,0,0.1);
-            padding: 8px;
-        }
     </style>
     @yield('styles')
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-md">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="logo" href="{{ route('home') }}">
                 <div class="logo-icon"><i class="fas fa-wrench"></i></div>
@@ -261,18 +231,14 @@
                 </div>
             </div>
             <hr class="mt-5 border-secondary opacity-25">
-            <div class="text-center text-secondary small pt-3 flex flex-col items-center gap-2">
-                <span>© 2026 AutoFixPro. All rights reserved. Ride safe, ride smart.</span>
-                <span class="opacity-50 text-[10px] uppercase tracking-widest">Engineered by <span class="text-blue-400">Antigravity AI</span></span>
+            <div class="text-center text-secondary small pt-3">
+                © 2026 AutoFixPro. All rights reserved. Ride safe, ride smart.
             </div>
         </div>
     </footer>
 
     <div class="floating-support animate__animated animate__bounceInUp">
-        <a href="{{ route('ai.diagnostic') }}" class="flex items-center justify-center w-[60px] h-[60px] bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full shadow-[0_10px_25px_rgba(37,99,235,0.4)] hover:scale-110 hover:rotate-12 transition-all duration-300 group" title="Antigravity AI Assistant">
-            <i class="fas fa-brain text-2xl group-hover:animate-pulse"></i>
-        </a>
-        <a href="https://wa.me/916353845689" target="_blank" class="btn-whatsapp" title="Chat on WhatsApp">
+        <a href="https://wa.me/919876543210" target="_blank" class="btn-whatsapp" title="Chat on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
     </div>
