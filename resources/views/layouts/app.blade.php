@@ -143,7 +143,7 @@
         <div class="container">
             <a class="logo" href="{{ route('home') }}">
                 <div class="logo-icon"><i class="fas fa-wrench"></i></div>
-                AutoFix<span style="color:var(--accent)">Pro</span>
+                KSM <span style="color:var(--accent)">MotoWorks</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
@@ -203,7 +203,7 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4">
-                    <h4 class="fw-bold">AutoFix<span class="text-warning">Pro</span></h4>
+                    <h4 class="fw-bold">KSM <span class="text-warning">MotoWorks</span></h4>
                     <p class="text-secondary">Premium bike service & repair. Quality you can trust. Expert mechanics, genuine parts & AI diagnostics.</p>
                     <div class="d-flex gap-3 mt-3">
                         <a href="#" class="btn btn-sm btn-outline-light rounded-circle"><i class="fab fa-facebook-f"></i></a>

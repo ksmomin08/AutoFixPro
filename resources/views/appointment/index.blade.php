@@ -821,13 +821,13 @@
 <script>
 $(document).ready(function() {
     const workshops = [
-        { id: 1, name: 'AutoFix SG Highway', address: 'Times Square Grand, SG Highway, Ahmedabad', lat: 23.0538, lng: 72.5024 },
-        { id: 2, name: 'AutoFix Satellite', address: 'Shivranjani Cross Roads, Satellite, Ahmedabad', lat: 23.0298, lng: 72.5273 },
-        { id: 3, name: 'AutoFix Maninagar', address: 'Jawahar Chowk, Maninagar, Ahmedabad', lat: 22.9961, lng: 72.6015 },
-        { id: 4, name: 'AutoFix C.G. Road', address: 'White House, C.G. Road, Ahmedabad', lat: 23.0333, lng: 72.5634 },
-        { id: 5, name: 'AutoFix Bopal Hub', address: 'Bopal Cross Roads, Ahmedabad', lat: 23.0338, lng: 72.4632 },
-        { id: 6, name: 'AutoFix Mumbai Central', address: 'Plot 45, Worli Sea Face, Mumbai', lat: 18.9986, lng: 72.8152 },
-        { id: 7, name: 'AutoFix Delhi Hub', address: 'Sector 18, Noida, Delhi NCR', lat: 28.5708, lng: 77.3259 }
+        { id: 1, name: 'KSM SG Highway', address: 'Times Square Grand, SG Highway, Ahmedabad', lat: 23.0538, lng: 72.5024 },
+        { id: 2, name: 'KSM Satellite', address: 'Shivranjani Cross Roads, Satellite, Ahmedabad', lat: 23.0298, lng: 72.5273 },
+        { id: 3, name: 'KSM Maninagar', address: 'Jawahar Chowk, Maninagar, Ahmedabad', lat: 22.9961, lng: 72.6015 },
+        { id: 4, name: 'KSM C.G. Road', address: 'White House, C.G. Road, Ahmedabad', lat: 23.0333, lng: 72.5634 },
+        { id: 5, name: 'KSM Bopal Hub', address: 'Bopal Cross Roads, Ahmedabad', lat: 23.0338, lng: 72.4632 },
+        { id: 6, name: 'KSM Mumbai Central', address: 'Plot 45, Worli Sea Face, Mumbai', lat: 18.9986, lng: 72.8152 },
+        { id: 7, name: 'KSM Delhi Hub', address: 'Sector 18, Noida, Delhi NCR', lat: 28.5708, lng: 77.3259 }
     ];
 
     let map, markers = {}, userMarker;
