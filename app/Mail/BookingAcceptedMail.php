@@ -30,8 +30,8 @@ class BookingAcceptedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new \Illuminate\Mail\Mailables\Address(env('MAIL_FROM_ADDRESS', env('MAIL_USERNAME', 'hello@example.com')), env('MAIL_FROM_NAME', 'AutoFixPro')),
-            subject: 'Booking Confirmed - AutoFixPro',
+            from: new \Illuminate\Mail\Mailables\Address(env('MAIL_FROM_ADDRESS', env('MAIL_USERNAME', 'hello@example.com')), env('MAIL_FROM_NAME', 'KSM MotoWorks')),
+            subject: 'Booking Confirmed - KSM MotoWorks',
         );
     }
 

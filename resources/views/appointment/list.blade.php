@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'My Dashboard | AutoFixPro')
+@section('title', 'My Dashboard | KSM MotoWorks')
 
 @section('styles')
 <style>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact AutoFixPro | Support & Sales')
+@section('title', 'Contact KSM MotoWorks | Support & Sales')
 
 @section('styles')
 <style>
@@ -125,7 +125,7 @@
                             <div class="info-icon"><i class="fas fa-envelope"></i></div>
                             <div>
                                 <h6 class="fw-bold mb-1">Email Us</h6>
-                                <p class="text-secondary small mb-0">support@autofixpro.com<br>care@autofixpro.com</p>
+                                <p class="text-secondary small mb-0">support@ksmmotoworks.com<br>care@ksmmotoworks.com</p>
                             </div>
                         </div>
 

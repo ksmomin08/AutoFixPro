@@ -17,13 +17,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>AutoFixPro</h1>
+            <h1>KSM MotoWorks</h1>
             <p style="margin-top:10px; color:#cbd5e1;">Your Vehicle Service Platform</p>
         </div>
         
         <div class="content">
             <h2>Hello {{ $name }},</h2>
-            <p>Thank you for registering with AutoFixPro. To complete your registration and securely verify your email address, please use the following One-Time Password (OTP):</p>
+            <p>Thank you for registering with KSM MotoWorks. To complete your registration and securely verify your email address, please use the following One-Time Password (OTP):</p>
             
             <div class="otp-box">
                 {{ $otp }}
@@ -33,7 +33,7 @@
         </div>
         
         <div class="footer">
-            &copy; {{ date('Y') }} AutoFixPro. All rights reserved.<br>
+            &copy; {{ date('Y') }} KSM MotoWorks. All rights reserved.<br>
             Ahmedabad, India.
         </div>
     </div>

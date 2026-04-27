@@ -23,7 +23,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>AutoFixPro</h1>
+            <h1>KSM MotoWorks</h1>
             <p style="margin-top:10px; color:#cbd5e1;">Your Vehicle Service Platform</p>
         </div>
         
@@ -52,12 +52,12 @@
             <p>If you have any questions or need to make changes, please contact us immediately or reply to this email.</p>
             
             <center>
-                <a href="{{ url('/') }}" class="btn">Visit AutoFixPro</a>
+                <a href="{{ url('/') }}" class="btn">Visit KSM MotoWorks</a>
             </center>
         </div>
         
         <div class="footer">
-            &copy; {{ date('Y') }} AutoFixPro. All rights reserved.<br>
+            &copy; {{ date('Y') }} KSM MotoWorks. All rights reserved.<br>
             Ahmedabad, India.
         </div>
     </div>

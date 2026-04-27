@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Secure Checkout | AutoFixPro')
+@section('title', 'Secure Checkout | KSM MotoWorks')
 
 @section('styles')
 <style>
@@ -210,7 +210,7 @@
         "key": "{{ $razorpay_key }}",
         "amount": "{{ $amount * 100 }}",
         "currency": "INR",
-        "name": "AutoFixPro",
+        "name": "KSM MotoWorks",
         "description": "Payment for {{ $appointment->service }}",
         "image": "https://cdn-icons-png.flaticon.com/512/3202/3202926.png", // Replace with your logo
         "order_id": "{{ $razorpay_order_id }}",

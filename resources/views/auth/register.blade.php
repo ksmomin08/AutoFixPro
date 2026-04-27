@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create Account | AutoFixPro')
+@section('title', 'Create Account | KSM MotoWorks')
 
 @section('styles')
 <style>
@@ -46,7 +46,7 @@
 <div class="auth-container">
     <div class="auth-card animate__animated animate__fadeInUp">
         <div class="text-center mb-5">
-            <h2 class="fw-bold mb-1">JOIN AUTOFIXPRO</h2>
+            <h2 class="fw-bold mb-1">JOIN KSM MOTOWORKS</h2>
             <p class="text-secondary small">Start your professional vehicle care journey today.</p>
         </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'About AutoFixPro | Our Mission')
+@section('title', 'About KSM MotoWorks | Our Mission')
 
 @section('styles')
 <style>
@@ -43,7 +43,7 @@
 @section('content')
     <section class="page-header">
         <div class="container">
-            <h1 class="fw-bold h1 mb-3">ABOUT AUTOFIXPRO</h1>
+            <h1 class="fw-bold h1 mb-3">ABOUT KSM MOTOWORKS</h1>
             <p class="opacity-75 fs-5 mx-auto" style="max-width: 600px;">Redefining automotive care with transparency, technology, and expert craftsmanship.</p>
         </div>
     </section>
@@ -54,7 +54,7 @@
                 <div class="col-lg-6">
                     <div class="about-card animate__animated animate__fadeInLeft">
                         <h2 class="fw-bold mb-4">Our <span class="text-warning">Story</span></h2>
-                        <p class="text-secondary mb-4">AutoFixPro was born from a passion for motorcycles and a commitment to transparent, high-quality service. We believe every ride deserves expert care. Our state-of-the-art facility uses diagnostic tools, genuine parts, and a customer-first approach to keep your bike running smoothly.</p>
+                        <p class="text-secondary mb-4">KSM MotoWorks was born from a passion for motorcycles and a commitment to transparent, high-quality service. We believe every ride deserves expert care. Our state-of-the-art facility uses diagnostic tools, genuine parts, and a customer-first approach to keep your bike running smoothly.</p>
                         
                         <div class="feature-point">
                             <div class="feature-point-icon"><i class="fas fa-history"></i></div>

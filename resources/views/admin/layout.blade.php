@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Command Center | AutoFixPro</title>
+    <title>Admin Command Center | KSM MotoWorks</title>
     
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -136,7 +136,7 @@
         <!-- Sidebar -->
         <aside class="admin-sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h5 class="mb-0 text-white fw-bold tracking-tight">AutoFixPro <span class="text-warning text-xs">ADMIN</span></h5>
+                <h5 class="mb-0 text-white fw-bold tracking-tight">KSM MotoWorks <span class="text-warning text-xs">ADMIN</span></h5>
             </div>
             
             <div class="py-4">

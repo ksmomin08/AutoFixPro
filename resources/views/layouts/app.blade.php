@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- AutoFixPro Build: ad6692a | Final Map Separation Verify -->
+<!-- KSM MotoWorks Build: ad6692a | Final Map Separation Verify -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>@yield('title', 'AutoFixPro | Premium Vehicle Service')</title>
+    <title>@yield('title', 'KSM MotoWorks | Premium Vehicle Service')</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v={{ file_exists(public_path('favicon.png')) ? filemtime(public_path('favicon.png')) : '1' }}">
 
     <!-- Fonts -->
@@ -232,7 +232,7 @@
             </div>
             <hr class="mt-5 border-secondary opacity-25">
             <div class="text-center text-secondary small pt-3">
-                © 2026 AutoFixPro. All rights reserved. Ride safe, ride smart.
+                © 2026 KSM MotoWorks. All rights reserved. Ride safe, ride smart.
             </div>
         </div>
     </footer>

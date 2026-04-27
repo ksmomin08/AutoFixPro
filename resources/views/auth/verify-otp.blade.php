@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Verify OTP | AutoFixPro')
+@section('title', 'Verify OTP | KSM MotoWorks')
 
 @section('styles')
 <style>

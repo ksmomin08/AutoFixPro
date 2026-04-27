@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'AutoFixPro | Precision Bike Care')
+@section('title', 'KSM MotoWorks | Precision Bike Care')
 
 @section('styles')
 <style>
@@ -228,7 +228,7 @@
     <section class="py-5 bg-white">
         <div class="container py-5">
             <div class="text-center mb-5">
-                <h2 class="fw-bold h1">Why Choose <span class="text-warning">AutoFixPro?</span></h2>
+                <h2 class="fw-bold h1">Why Choose <span class="text-warning">KSM MotoWorks?</span></h2>
                 <p class="text-secondary">The gold standard in automotive maintenance and repair.</p>
             </div>
             <div class="row g-4 mt-4">

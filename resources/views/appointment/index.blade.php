@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Book Appointment | AutoFixPro')
+@section('title', 'Book Appointment | KSM MotoWorks')
 
 @section('styles')
 {{-- Leaflet CSS Link --}}
@@ -734,7 +734,7 @@
             { name: 'GSX-S1000 (2022–Present)', photo: '' },
             { name: 'GSX-S1000GT (2022–Present)', photo: '' },
             { name: 'GSX-R1000R (2018–Present)', photo: '' }
-        ]
+        ],
     };
 
     $(document).ready(function() {

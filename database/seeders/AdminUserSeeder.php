@@ -13,7 +13,7 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         \App\Models\User::firstOrCreate(
-            ['email' => 'admin@autofixpro.com'],
+            ['email' => 'admin@ksmmotoworks.com'],
             [
                 'name' => 'Administrator',
                 'password' => \Illuminate\Support\Facades\Hash::make('password'),

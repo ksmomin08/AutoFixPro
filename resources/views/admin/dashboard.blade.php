@@ -158,7 +158,7 @@
     <div class="position-relative z-index-1">
         <h2 class="fw-black mb-3 text-warning">ADMIN COMMAND V.2.0</h2>
         <p class="lead text-white-50 opacity-75 mb-0" style="max-width: 700px;">
-            You are operating the core business engine of AutoFixPro. Monitor growth trends, manage high-priority customer requests, and ensure every vehicle receives the "Pro" standard of care.
+            You are operating the core business engine of KSM MotoWorks. Monitor growth trends, manage high-priority customer requests, and ensure every vehicle receives the "Pro" standard of care.
         </p>
     </div>
 </div>
