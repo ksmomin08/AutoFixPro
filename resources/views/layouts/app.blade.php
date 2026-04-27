@@ -134,6 +134,106 @@
         .admin:hover{
             color: #25d366
         }
+
+        /* Mobile Premium Overrides */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem !important;
+                text-align: center;
+            }
+            .hero-desc {
+                text-align: center;
+                font-size: 1rem;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-section {
+                padding: 60px 0;
+                text-align: center;
+            }
+            .hero-section .d-flex {
+                flex-direction: column;
+                gap: 15px !important;
+            }
+            .btn-premium {
+                width: 100%;
+                justify-content: center;
+                padding: 15px !important;
+            }
+            .navbar {
+                padding: 10px 0;
+            }
+            .logo {
+                font-size: 1.2rem;
+            }
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+
+            /* Bottom Nav Bar for Mobile */
+            .mobile-bottom-nav {
+                display: flex !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-top: 1px solid rgba(0,0,0,0.05);
+                height: 70px;
+                z-index: 2000;
+                justify-content: space-around;
+                align-items: center;
+                padding-bottom: env(safe-area-inset-bottom);
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-decoration: none;
+                color: #64748b;
+                font-size: 0.7rem;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-nav-item i {
+                font-size: 1.4rem;
+                margin-bottom: 4px;
+            }
+
+            .mobile-nav-item.active {
+                color: var(--primary);
+            }
+
+            .mobile-nav-item.book-now {
+                background: var(--gradient-accent);
+                color: white;
+                width: 55px;
+                height: 55px;
+                border-radius: 50%;
+                justify-content: center;
+                margin-top: -35px;
+                box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+                border: 4px solid white;
+            }
+            .mobile-nav-item.book-now i {
+                margin-bottom: 0;
+            }
+
+            /* Hide Footer on Mobile to save space if needed or just padding */
+            footer {
+                padding-bottom: 100px !important;
+            }
+        }
+
+        .mobile-bottom-nav {
+            display: none;
+        }
     </style>
     @yield('styles')
 </head>
@@ -237,8 +337,30 @@
         </div>
     </footer>
 
+    <div class="mobile-bottom-nav d-none">
+        <a href="{{ route('home') }}" class="mobile-nav-item {{ Request::is('/') ? 'active' : '' }}">
+            <i class="fas fa-home"></i>
+            <span>HOME</span>
+        </a>
+        <a href="{{ route('services') }}" class="mobile-nav-item {{ Request::is('services') ? 'active' : '' }}">
+            <i class="fas fa-tools"></i>
+            <span>SERVICES</span>
+        </a>
+        <a href="{{ route('appointment') }}" class="mobile-nav-item book-now">
+            <i class="fas fa-calendar-plus"></i>
+        </a>
+        <a href="{{ route('ai.diagnostic') }}" class="mobile-nav-item {{ Request::is('ai-diagnostic') ? 'active' : '' }}">
+            <i class="fas fa-robot"></i>
+            <span>AI DIAG</span>
+        </a>
+        <a href="{{ route('contact') }}" class="mobile-nav-item {{ Request::is('contact') ? 'active' : '' }}">
+            <i class="fas fa-envelope"></i>
+            <span>CONTACT</span>
+        </a>
+    </div>
+
     <div class="floating-support animate__animated animate__bounceInUp">
-        <a href="https://wa.me/919876543210" target="_blank" class="btn-whatsapp" title="Chat on WhatsApp">
+        <a href="https://wa.me/916353845689" target="_blank" class="btn-whatsapp" title="Chat on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
     </div>
